@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieStar - Cadastre-se</title>
+</head>
+    <style>
+        html, body{
+        margin: 0;
+        padding: 0;
+        height: 100%;
+
+        }
+        .log_in{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .texts_log_in{
+            background-color: #fff4b8 ;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding-left: 200px;
+            padding-right: 200px;   
+            margin-top: 10vh;
+            margin-bottom: 10vh;
+            height: calc(80vh);
+            border: 1px solid black;
+        }
+        h1{
+            font-size: 50px;
+        }
+        a{
+            background-color: #ffd900;
+            font-size: 15px;
+            text-align: center;
+            border: 1px solid black;
+            padding: 5px;
+            color: black;
+            text-decoration: none;
+        }
+        a:hover{
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+            font-size: 16px;
+        }
+        input{
+            width: 300px;
+            height: 30px;
+        }
+        form article{
+            display: initial;
+        }
+        form article a{
+            background-color: #ffd900;
+            padding: 5px;
+            border: 1px solid black;
+        }
+        form article a:hover{
+           box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+        }
+    </style>
+
+<body class="log_in">
+    <form action="/login" method="POST" class="texts_log_in" id="formRegistro">
+    <h1>Cadastre-se</h1>
+    <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+
+    <input type="password" id="senha1" name="senha" placeholder="Digite sua senha" required>
+
+    <input type="password" id="senha2" name="senha" placeholder="Repita sua senha" required>
+    
+    <a type="submit" id="btnEnviar">Enviar</a>
+    </form>
+    <script>
+  const form = document.getElementById('formRegistro');
+  const btnEnviar = document.getElementById('btnEnviar');
+  const senha1 = document.getElementById('senha1');
+  const senha2 = document.getElementById('senha2');
+
+  btnEnviar.addEventListener('click', function(event) {
+    event.preventDefault(); // evita ir direto para outro lugar
+
+    // validação simples
+    if (!form.checkValidity()) {
+      alert("Por favor, preencha todos os campos corretamente.");
+      return;
+    }
+
+    if (senha1.value !== senha2.value) {
+      alert("As senhas não coincidem.");
+      return;
+    }
+
+    // Se passar na validação, envia o formulário
+    form.submit();
+
+    window.location.href = "index_login.html";
+  });
+    document.getElementById("submit").addEventListener("click", function(e) {
+    e.preventDefault(); // evita o comportamento padrão do link
+    document.getElementById("meuForm").submit(); // envia o formulário
+  });
+
+</script>
+   
+</body>
+</html>
