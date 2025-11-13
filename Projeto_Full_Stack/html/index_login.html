@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieStar - login</title>
+</head>
+    <style>
+        html, body{
+        margin: 0;
+        padding: 0;
+        height: 100%;
+
+        }
+        .log_in{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .texts_log_in{
+            background-color: #fff4b8 ;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding-left: 200px;
+            padding-right: 200px;   
+            margin-top: 10vh;
+            margin-bottom: 10vh;
+            height: calc(80vh);
+            border: 1px solid black;
+        }
+        h1{
+            font-size: 50px;
+        }
+        button{
+            background-color: #ffd900;
+            font-size: 15px;
+        }
+        button:hover{
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+            font-size: 16px;
+        }
+        input{
+            width: 300px;
+            height: 30px;
+        }
+        form article{
+            display: initial;
+        }
+        form article a{
+            background-color: #ffd900;
+            padding: 5px;
+            border: 1px solid black;
+        }
+        form article a:hover{
+           box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+        }
+    </style>
+
+<body class="log_in">
+    <form action="/login" method="POST" class="texts_log_in">
+    <h1>Login</h1>
+    <input type="email" id="email" name="email" placeholder="email" required>
+
+    <input type="password" id="senha" name="senha" placeholder="senha" required>
+    
+    <button type="submit">Entrar</button>
+    <article>
+    <p>É novo por aqui?</p>
+    <a href="index_cadastro.html"> Cadastre-se</a>
+    </article>
+    </form>
+   
+</body>
+</html>
