@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Trailer</title>
+  <style>
+    html{
+      background-color: #fff4b8;
+    }
+    body { text-align: center; padding: 40px; font-family: sans-serif; }
+    iframe { width: 80%; height: 450px; border: none; }
+    h2{
+      text-align: start;
+      margin-top: 0px;
+    }
+  </style>
+</head>
+<body>
+  <h2>MovieStar⭐</h2>
+  <h1>Trailer do Filme</h1>
+  <div id="trailer-container">
+    <p>Carregando trailer...</p>
+  </div>
+
+
+  <script>
+    // Obtem o nome do filme pela URL (?filme=nome)
+    const params = new URLSearchParams(window.location.search);
+    const filme = params.get('filme');
+
+    // Mapeamento de filmes e links do YouTube
+    const trailers = {
+      'demon-slayer': 'https://www.youtube.com/embed/3UiP4GwWNv0',
+      'robocop': 'https://www.youtube.com/embed/IqvRDhW-XVA',
+      'uncharted': 'https://www.youtube.com/embed/eHp3MbsCbMg',
+      'madmax': 'https://www.youtube.com/embed/hEJnMQG9ev8',
+      'wardering': 'https://www.youtube.com/embed/8ZIfInUTiIg',
+      'thunderbolts': 'https://www.youtube.com/embed/MaLy0D2FTDc',
+      'devoltaparaofuturo': 'https://www.youtube.com/embed/R894dvwNo4w',
+      'soul': 'https://www.youtube.com/embed/hWBxoH4-4yw',
+      'umafamiliafeliz': 'https://www.youtube.com/embed/kIXpxfnzEY0',
+      'petsavidaselvagem': 'https://www.youtube.com/embed/9Ia6FKg_IUU',
+      'estreladebelem': 'https://www.youtube.com/embed/yRC4f3s6b4I',
+      'caminhodecasa': 'https://www.youtube.com/embed/rhSKciA8erE',
+      'divertidamente': 'https://www.youtube.com/embed/w2YRoV--CHo',
+      'nacompanhiadomal': 'https://www.youtube.com/embed/zCw60uISw5U',
+      'sessao9': 'https://www.youtube.com/embed/4s-5eJq47bY',
+      'cadaver': 'https://www.youtube.com/embed/Iz-kcZujnEU',
+      'aentidade': 'https://www.youtube.com/embed/yv9oGgGDBQE',
+      'itacoisa': 'https://www.youtube.com/embed/dD264ZjfKlk',
+      'falecomigo': 'https://www.youtube.com/embed/zIt5jSNPxNI',
+      'super8': 'https://www.youtube.com/embed/t-0XuYxh67w',
+      'naselva': 'https://www.youtube.com/embed/vQaLraAr8OY',
+      'dungeonsedragons': 'https://www.youtube.com/embed/4ej5yjOqBMI',
+      'agrandemuralha': 'https://www.youtube.com/embed/gd2n92fKtvo',
+      'monsterhunter': 'https://www.youtube.com/embed/3od-kQMTZ9M',
+      'osenhordosaneis': 'https://www.youtube.com/embed/0i86oM1nHjM',
+
+    };
+
+    const trailerURL = trailers[filme];
+
+    const container = document.getElementById('trailer-container');
+    if (trailerURL) {
+      container.innerHTML = `
+        <iframe src="${trailerURL}" allowfullscreen></iframe>
+      `;
+    } else {
+      container.innerHTML = `<p>Trailer não encontrado.</p>`;
+    }
+  </script>
+
+</body>
+</html>
