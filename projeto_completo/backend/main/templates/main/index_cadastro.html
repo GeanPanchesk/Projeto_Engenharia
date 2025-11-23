@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieStar - Cadastre-se</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      .log_in {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .texts_log_in {
+        background-color: #fff4b8;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding-left: 200px;
+        padding-right: 200px;
+        margin-top: 10vh;
+        margin-bottom: 10vh;
+        height: calc(80vh);
+        border: 1px solid black;
+      }
+      h1 {
+        font-size: 50px;
+      }
+      a,
+      .btn-submit {
+        background-color: #ffd900;
+        font-size: 15px;
+        text-align: center;
+        border: 1px solid black;
+        padding: 5px;
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      a:hover,
+      .btn-submit:hover {
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        font-size: 16px;
+      }
+      input {
+        width: 300px;
+        height: 30px;
+      }
+      .errorlist {
+        color: red;
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0 0 10px 0;
+      }
+      .errorlist li {
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body class="log_in">
+    <form
+      method="POST"
+      class="texts_log_in"
+      id="formRegistro"
+      action="{% url 'index_cadastro' %}"
+    >
+      <h1>Cadastre-se</h1>
+      {% csrf_token %} {% if form.errors %}
+      <ul class="errorlist">
+        {% for field in form %} {% for error in field.errors %}
+        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+        {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <input
+        type="text"
+        name="username"
+        placeholder="Digite seu usuário"
+        value="{{ form.username.value|default_if_none:'' }}"
+        required
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Digite seu email"
+        value="{{ form.email.value|default_if_none:'' }}"
+        required
+      />
+      <input
+        type="password"
+        name="password1"
+        placeholder="Digite sua senha"
+        required
+      />
+      <input
+        type="password"
+        name="password2"
+        placeholder="Repita sua senha"
+        required
+      />
+
+      <button type="submit" id="btnEnviar" class="btn-submit">Enviar</button>
+    </form>
+
+    <script src="{% static 'main/js/interaction.js' %}"></script>
+    <script>
+      const form = document.getElementById("formRegistro");
+      const senha1 = form.querySelector('[name="password1"]');
+      const senha2 = form.querySelector('[name="password2"]');
+
+      form.addEventListener("submit", function (event) {
+        if (senha1.value !== senha2.value) {
+          event.preventDefault();
+          alert("As senhas não coincidem.");
+        }
+      });
+    </script>
+  </body>
+</html>

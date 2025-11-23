@@ -1,0 +1,468 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'main/css/carrosel.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <title>MovieStar</title>
+  </head>
+
+  <body class="app">
+    <header class="cabecalho">
+      <nav class="lista__cabecalho">
+        <p href="logo">MovieStar⭐</p>
+        <input type="text" id="campoBusca" placeholder="🔍​Buscar filme..." />
+        <article>
+          <a class="cabecalho__click" href="{% url 'index_login' %}">Login</a>
+          <a class="cabecalho__click" href="">🛒​</a>
+        </article>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Destaque -->
+      <section class="imagem__principal" id="destaque">
+        <div class="overtext">
+          <h1 class="titulo__imagem">Demon slayer</h1>
+          <p class="descricao__imagem">
+            Um menino criado por javali embarca no Trem Infinito em uma<br />
+            nova missão com o Pilar da Chama, junto com outro menino que<br />
+            revela seu verdadeiro poder quando dorme. A missão deles é <br />
+            derrotar um demônio que tem atormentado as pessoas.
+          </p>
+          <p class="imdb">imdb 8,6 2h35m 2025</p>
+          <p class="classificacao">Ação | aventura</p>
+          <button>Alugar R$7,90</button>
+          <button
+            onclick="window.location.href='{% url 'trailer' %}?filme=demon-slayer'"
+          >
+            Ver trailer
+          </button>
+        </div>
+      </section>
+
+      <!-- Primeiro carrossel: Populares -->
+      <h2>Populares na Plataforma</h2>
+      <section class="carrossel-container" id="destaques">
+        <button class="btn btn-left">&#10094;</button>
+        <div class="carrossel">
+          <article class="filme">
+            <img src="{% static 'main/imagens/robocop.jpg' %}" alt="robocop" />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=robocop'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/Wardering.jpg' %}"
+              alt="wardering"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=wardering'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/ThunderBolts.jpg' %}"
+              alt="thunderbolts"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=thunderbolts'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/Uncharted.jpeg' %}"
+              alt="Uncharted"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=uncharted'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img src="{% static 'main/imagens/MadMax.jpeg' %}" alt="MadMax" />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=madmax'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/DeVoltaParaoFuturo.jpeg' %}"
+              alt="De Volta Para o Futuro"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=devoltaparaofuturo'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+        </div>
+        <button class="btn btn-right">&#10095;</button>
+      </section>
+
+      <!-- Segundo carrossel: Família -->
+      <h2>Para toda família</h2>
+      <section class="carrossel-container" id="populares">
+        <button class="btn btn-left">&#10094;</button>
+        <div class="carrossel">
+          <article class="filme">
+            <img src="{% static 'main/imagens/Soul.jpg' %}" alt="Soul" />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=soul'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/UmaFamiliaFeliz.jpg' %}"
+              alt="Uma Familia Feliz"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=umafamiliafeliz'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/PetsaVidaSelvagem.webp' %}"
+              alt="Pets a Vida Selvagem"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=petsavidaselvagem'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/EstreladeBelem.jpg' %}"
+              alt="Estrela de Belem"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=estreladebelem'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/aCaminhodeCasa.jpg' %}"
+              alt="A Caminho de Casa"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=acaminhodecasa'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/Divertidamente.webp' %}"
+              alt="Divertidamente"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=divertidamente'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+        </div>
+        <button class="btn btn-right">&#10095;</button>
+      </section>
+
+      <!-- Terceiro carrossel: Aterrorizantes -->
+      <h2>Aterrorizantes</h2>
+      <section class="carrossel-container" id="familia">
+        <button class="btn btn-left">&#10094;</button>
+        <div class="carrossel">
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/naCompanhiadoMal.webp' %}"
+              alt="na Companhia do Mal"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=nacompanhiadomal'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/session9.jpg' %}"
+              alt="sessão 9"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=sessao9'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img src="{% static 'main/imagens/Cadaver.webp' %}" alt="Cadaver" />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=cadaver'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/Sinister.jpg' %}"
+              alt="A entidade"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=aentidade'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/ItaCoisa.jpg' %}"
+              alt="It a Coisa"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=itacoisa'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/FaleComigo.webp' %}"
+              alt="Fale Comigo"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=falecomigo'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+        </div>
+        <button class="btn btn-right">&#10095;</button>
+      </section>
+
+      <!-- Quarto carrossel: Ação e aventura -->
+      <h2>Ação e aventura</h2>
+      <section class="carrossel-container" id="terror">
+        <button class="btn btn-left">&#10094;</button>
+        <div class="carrossel">
+          <article class="filme">
+            <img src="{% static 'main/imagens/Super8.jpg' %}" alt="Super 8" />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=super8'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img src="{% static 'main/imagens/NaSelva.jpg' %}" alt="Na Selva" />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=naselva'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/DungeonsEdragons.jpg' %}"
+              alt="Dungeons E dragons"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=dungeonsedragons'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/AgrandeMuralha.jpg' %}"
+              alt="A grande Muralha"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=agrandemuralha'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/MonsterHunter.jpg' %}"
+              alt="Monster Hunter"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=monsterhunter'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+          <article class="filme">
+            <img
+              src="{% static 'main/imagens/OsenhordosAneis.jpg' %}"
+              alt="O senhor dos Aneis"
+            />
+            <div class="overlay">
+              <p>Alugar por R$ 7,90</p>
+              <button>Adicionar ao carrinho</button>
+              <br />
+              <button
+                onclick="window.location.href='{% url 'trailer' %}?filme=osenhordosaneis'"
+              >
+                Ver trailer
+              </button>
+            </div>
+          </article>
+        </div>
+        <button class="btn btn-right">&#10095;</button>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="logo__footer">MovieStar⭐</p>
+      <article>
+        <a
+          href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31"
+          >Termos e aviso de privacidade</a
+        >
+        <p>©2025 - MovieStar, todos os direitos reservados</p>
+      </article>
+    </footer>
+
+    <script src="{% static 'main/js/interaction.js' %}"></script>
+  </body>
+</html>
