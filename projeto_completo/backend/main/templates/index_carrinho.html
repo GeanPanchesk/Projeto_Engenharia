@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho de Compras - Filmes</title>
+    <link rel="stylesheet" href="{% static 'main/css/style_carrinho.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Carrinho de Compras</h1>
+        <p>Locação: Cada filme alugado permite uma visualização única. Desfrute do cinema em casa!</p>
+    </header>
+    
+    <main>
+        <div class="conteudo">
+            <div class="carrinho">
+                <h2>Seus Itens</h2>
+                <div class="item">
+                    <img src="https://via.placeholder.com/120x180?text=Filme+1" alt="Imagem do Filme 1">
+                    <div class="detalhes">
+                        <h3>Título do Filme 1</h3>
+                        <p class="preco"> Preço: R$ 5,00</p>
+                        <div class="quantidade">
+                            <button class="btn">-</button>
+                            <input type="number" value="1" min="0" readonly>
+                            <button class="btn">+</button>
+                        </div>
+                        <button class="remover">🗑️ Remover Item</button>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="https://via.placeholder.com/120x180?text=Filme+2" alt="Imagem do Filme 2">
+                    <div class="detalhes">
+                        <h3>Título do Filme 2</h3>
+                        <p class="preco"> Preço: R$ 7,00</p>
+                        <div class="quantidade">
+                            <button class="btn">-</button>
+                            <input type="number" value="2" min="0" readonly>
+                            <button class="btn">+</button>
+                        </div>
+                        <button class="remover">🗑️ Remover Item</button>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="https://via.placeholder.com/120x180?text=Filme+3" alt="Imagem do Filme 3">
+                    <div class="detalhes">
+                        <h3>Título do Filme 3</h3>
+                        <p class="preco"> Preço: R$ 6,00</p>
+                        <div class="quantidade">
+                            <button class="btn">-</button>
+                            <input type="number" value="1" min="0" readonly>
+                            <button class="btn">+</button>
+                        </div>
+                        <button class="remover">🗑️ Remover Item</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="resumo">
+                <h2>Resumo do Pedido</h2>
+                <div class="resumo-itens">
+                    <div class="resumo-item">
+                        <span>Título do Filme 1 (1x)</span>
+                        <span>R$ 5,00</span>
+                    </div>
+                    <div class="resumo-item">
+                        <span>Título do Filme 2 (2x)</span>
+                        <span>R$ 14,00</span>
+                    </div>
+                    <div class="resumo-item">
+                        <span>Título do Filme 3 (1x)</span>
+                        <span>R$ 6,00</span>
+                    </div>
+                </div>
+                <div class="total">
+                    <h3>Total: R$ 25,00</h3> <button class="finalizar">🚀 Finalizar Locação!</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2025 Locadora de Filmes. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

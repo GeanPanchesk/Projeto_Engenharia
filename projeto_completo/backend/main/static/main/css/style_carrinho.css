@@ -1,0 +1,268 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo*/
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: linear-gradient(135deg, #f8e263 0%, #f0e68c 100%); 
+    color: #333; 
+    line-height: 1.6;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #f8e263; /* Destaque na cor principal */
+}
+
+header p {
+    font-size: 1em;
+    color: #666;
+}
+
+/* Conteúdo Principal (layout lateral) */
+.conteudo {
+    display: flex;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Carrinho (lado esquerdo) */
+.carrinho {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.95); /* Fundo semi-transparente */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra maior para profundidade */
+}
+
+.carrinho h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #f8e263;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 25px 0;
+    gap: 25px;
+    transition: transform 0.2s ease; /* Animação suave no hover */
+}
+
+.item:hover {
+    transform: translateY(-5px); /* Efeito de elevação */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item img {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.detalhes {
+    flex: 1;
+}
+
+.detalhes h3 {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.preco {
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333; /* Destaque no preço */
+}
+
+.quantidade {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.quantidade input {
+    width: 60px;
+    text-align: center;
+    border: 2px solid #f8e263;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.btn {
+    background: linear-gradient(45deg, #f8e263, #e6d055); /* Gradiente nos botões */
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1.2em;
+    border-radius: 50%; /* Botões circulares */
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: scale(1.1); /* Efeito de zoom */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.remover {
+    background: linear-gradient(45deg, #b40c0c, #b92118); /* Vermelho suave para remover */
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 0.9em;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.remover:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Resumo do Pedido */
+.resumo {
+    width: 400px; /* Aumentado de 350px para 400px */
+    background-color: #ffffff; /* Fundo branco neutro */
+    border: 1px solid #ddd; /* Borda simples e neutra */
+    border-radius: 15px;
+    padding: 25px; /* Mais padding para espaço */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra leve e neutra */
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.resumo h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #f8e263; /* Toque sutil da cor principal */
+    text-align: center;
+    border-bottom: 2px solid #f8e263; /* Linha sutil */
+    padding-bottom: 10px;
+}
+
+.resumo-itens {
+    margin-bottom: 20px;
+}
+
+.resumo-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0; /* Mais espaço */
+    border-bottom: 1px solid #eee; /* Separador neutro */
+    font-size: 0.95em;
+    color: #555; /* Texto cinza neutro */
+}
+
+.resumo-item span:first-child {
+    flex: 1;
+}
+
+.resumo-item span:last-child {
+    font-weight: bold;
+    color: #333; /* Preto para valores */
+}
+
+.resumo .total {
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9; /* Fundo cinza muito claro e neutro */
+    border-radius: 10px;
+    border: 1px solid #ddd; /* Borda neutra */
+}
+
+.resumo .total h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333; /* Preto neutro */
+}
+
+.finalizar {
+    background-color: #3eca06; /* Cor principal para o botão */
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-size: 1.1em;
+    border-radius: 10px;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.finalizar:hover {
+    background-color: #66d31e; /* Tom mais escuro */
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+
+
+
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .conteudo {
+        flex-direction: column;
+    }
+    
+    .resumo {
+        width: 100%; /* Largura total em mobile */
+        position: static;
+    }
+    
+    .item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .quantidade {
+        justify-content: center;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+}
