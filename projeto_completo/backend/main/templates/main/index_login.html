@@ -1,10 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MovieStar - login</title>
+    <title>MovieStar - Login</title>
     <style>
       html,
       body {
@@ -51,34 +51,49 @@
         background-color: #ffd900;
         padding: 5px;
         border: 1px solid black;
+        text-decoration: none;
+        color: black;
       }
       form article a:hover {
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
       }
+      .error-msg {
+        color: red;
+        margin: 0;
+      }
     </style>
   </head>
+
   <body class="log_in">
-    <form action="/login" method="POST" class="texts_log_in">
+    <form action="{% url 'index_login' %}" method="POST" class="texts_log_in">
+      {% csrf_token %}
       <h1>Login</h1>
+
+      {% if messages %} {% for message in messages %}
+      <p class="error-msg">{{ message }}</p>
+      {% endfor %} {% endif %}
+
       <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Usuário"
         required
       />
+
       <input
         type="password"
-        id="senha"
-        name="senha"
+        id="password"
+        name="password"
         placeholder="Senha"
         required
       />
 
       <button type="submit">Entrar</button>
+
       <article>
         <p>É novo por aqui?</p>
-        <a href="{% url 'index_cadastro' %}"> Cadastre-se</a>
+        <a href="{% url 'index_cadastro' %}">Cadastre-se</a>
       </article>
     </form>
   </body>
