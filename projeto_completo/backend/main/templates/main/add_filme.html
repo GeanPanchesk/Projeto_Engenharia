@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}" />
+    <title>Adicionar Filme - MovieStar</title>
+    <style>
+      .container {
+        display: flex;
+        gap: 50px;
+        padding: 50px;
+      }
+      .form-container {
+        flex: 1;
+        max-width: 600px;
+      }
+      .lista-filmes {
+        flex: 1;
+        max-width: 400px;
+        background-color: #fff4b8;
+        padding: 20px;
+        border-radius: 10px;
+        height: fit-content;
+      }
+      .filme-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 5px 10px;
+        background-color: #ffd900;
+        border-radius: 5px;
+      }
+      .filme-item img {
+        width: 50px;
+        height: 70px;
+        object-fit: cover;
+        margin-right: 10px;
+      }
+      .btn-remover {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      .btn-remover:hover {
+        background-color: darkred;
+      }
+    </style>
+  </head>
+
+  <body class="app">
+    <!-- Cabeçalho -->
+    <header class="cabecalho">
+      <nav class="lista__cabecalho">
+        <p href="logo">MovieStar⭐</p>
+        {% if request.user.is_authenticated %}
+          <p>Olá, {{ request.user.username }}</p>
+          <form action="{% url 'logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="cabecalho__click">Sair</button>
+          </form>
+        {% endif %}
+        <article>
+          <a class="cabecalho__click" href="{% url 'index' %}">Home</a>
+        </article>
+      </nav>
+    </header>
+
+    <!-- Conteúdo -->
+    <main class="container">
+      <!-- Formulário -->
+      <div class="form-container">
+        <h2>Adicionar Novo Filme</h2>
+        <form action="{% url 'add_filme' %}" method="post" enctype="multipart/form-data" style="display:flex; flex-direction:column;">
+          {% csrf_token %}
+
+          <label for="nome">Nome do Filme:</label>
+          <input type="text" id="nome" name="nome" required style="padding:10px; margin-bottom:15px;">
+
+          <label for="nota_imdb">Nota IMDb:</label>
+          <input type="number" step="0.1" min="0" max="10" id="nota_imdb" name="nota_imdb" required style="padding:10px; margin-bottom:15px;">
+
+          <label for="genero">Gênero:</label>
+          <select id="genero" name="genero" required style="padding:10px; margin-bottom:15px;">
+            <option value="">-- Selecione --</option>
+            <option value="populares">Populares na Plataforma</option>
+            <option value="familia">Para Toda a Família</option>
+            <option value="terror">Aterrorizantes</option>
+            <option value="acao">Ação e Aventura</option>
+            <option value="independente">Cinema Independente</option>
+          </select>
+
+          <label for="sinopse">Sinopse:</label>
+          <textarea id="sinopse" name="sinopse" rows="5" required style="padding:10px; margin-bottom:15px;"></textarea>
+
+          <label for="link_trailer">Link do Trailer:</label>
+          <input type="url" id="link_trailer" name="link_trailer" required style="padding:10px; margin-bottom:15px;">
+
+          <label for="capa">Capa (imagem):</label>
+          <input type="file" id="capa" name="capa" accept="image/*" required style="margin-bottom:15px;">
+
+          <label for="destaque">
+            <input type="checkbox" id="destaque" name="destaque">
+            Destaque na Home
+          </label>
+
+          <button type="submit" style="margin-top:20px; padding:10px 20px; background-color:#ffd900; border:none; cursor:pointer; font-weight:600;">
+            Adicionar Filme
+          </button>
+        </form>
+
+        {% if mensagens %}
+          <div style="margin-top:20px; color:green;">
+            {{ mensagens }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Lista de filmes -->
+      <div class="lista-filmes">
+        <h2>Filmes Cadastrados</h2>
+        {% for filme in filmes %}
+          <div class="filme-item">
+            <div style="display:flex; align-items:center;">
+              <img src="{{ filme.capa.url }}" alt="{{ filme.nome }}">
+              <span>{{ filme.nome }}</span>
+            </div>
+            <form action="{% url 'remover_filme' filme.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn-remover">Remover</button>
+            </form>
+          </div>
+        {% empty %}
+          <p>Nenhum filme cadastrado ainda.</p>
+        {% endfor %}
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p class="logo__footer">MovieStar⭐</p>
+      <article>
+        <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+        <p>©2025 - MovieStar, todos os direitos reservados</p>
+      </article>
+    </footer>
+  </body>
+</html>
