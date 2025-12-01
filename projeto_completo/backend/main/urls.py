@@ -9,6 +9,7 @@ urlpatterns = [
     path('trailer/', views.trailer, name='trailer'),
     path('add-filme/', views.add_filme, name='add_filme'),
     path('logout/', LogoutView.as_view(next_page='index_login'), name='logout'),
+    path('remover-filme/<int:filme_id>/', views.remover_filme, name='remover_filme'),
 
     
 ]
