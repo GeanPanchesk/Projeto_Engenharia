@@ -3,6 +3,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import CustomUserCreationForm
 
+from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
+
 
 def index(request):
     return render(request, 'main/index.html')
@@ -36,6 +39,12 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'main/index_cadastro.html', {'form': form})
+
+def add_filme(request):
+    if not request.user.is_authenticated or not request.user.profile.is_movie_admin:
+        return HttpResponseForbidden("Você não tem permissão para acessar esta página.")
+
+    return render(request, "main/add_filme.html")
 
 
 
