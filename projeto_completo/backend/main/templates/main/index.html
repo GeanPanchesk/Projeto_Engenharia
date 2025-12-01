@@ -20,7 +20,26 @@
       <nav class="lista__cabecalho">
         <p href="logo">MovieStar⭐</p>
         <input type="text" id="campoBusca" placeholder="🔍​Buscar filme..." />
+
+        {% if request.user.is_authenticated %}
+          <p>Olá, {{ request.user.username }}</p>
+        {% endif %}
+
+          {% if request.user.is_authenticated %}
+          <form action="{% url 'logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="cabecalho__click" style="background:none; border:none; cursor:pointer;">
+              Sair
+            </button>
+          </form>
+          {% endif %}
+          
         <article>
+
+
+          {% if request.user.is_authenticated and request.user.profile and request.user.profile.is_movie_admin %}
+          <a href="{% url 'add_filme' %}" class="btn-add">Adicionar Filmes</a>
+          {% endif %}
           <a class="cabecalho__click" href="{% url 'index_login' %}">Login</a>
           <a class="cabecalho__click" href="">🛒​</a>
         </article>
