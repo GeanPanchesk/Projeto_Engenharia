@@ -12,6 +12,11 @@
   <title>MovieStar</title>
 </head>
 <body class="app">
+
+  <script>
+    window.USER_IS_LOGGED_IN = {{ request.user.is_authenticated|yesno:"true,false" }};
+  </script>
+
   <!-- HEADER -->
   <header class="cabecalho">
     <nav class="lista__cabecalho">
@@ -36,16 +41,20 @@
         {% if not request.user.is_authenticated %}
           <a class="cabecalho__click" href="{% url 'index_login' %}">Login</a>
         {% endif %}
+
         <!-- Carrinho -->
-        <a class="cabecalho__click" href="">
+        <a class="cabecalho__click cart-icon" href="{% url 'carrinho' %}">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
+                 stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="9" cy="21" r="1"></circle>
                 <circle cx="20" cy="21" r="1"></circle>
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
+
+            {% if request.user.is_authenticated %}
+                <span id="carrinhoQtd" class="cart-count"></span>
+            {% endif %}
         </a>
-        <!-- Fim Carrinho -->
 
       </article>
     </nav>
@@ -53,6 +62,7 @@
 
   <!-- MAIN -->
   <main>
+
     <!-- DESTAQUE -->
     {% if destaque %}
     <section class="imagem__principal" id="destaque" style="background-image: url('{{ destaque.capa.url }}');">
@@ -60,7 +70,11 @@
         <h1 class="titulo__imagem">{{ destaque.nome }}</h1>
         <p class="descricao__imagem">{{ destaque.sinopse|linebreaksbr }}</p>
         <p class="imdb">IMDB {{ destaque.nota_imdb }}</p>
-        <button>Alugar R$7,90</button>
+
+        <button class="btnAddCarrinho" data-id="{{ destaque.id }}">
+          Alugar R$ 7,90
+        </button>
+
         <button onclick="window.location.href='{% url 'detalhes' destaque.id %}'">
           Detalhes
         </button>
@@ -75,14 +89,21 @@
         <h2>{{ categoria_nome }}</h2>
         <section class="carrossel-container">
           <button class="btn btn-left">&#10094;</button>
+
           <div class="carrossel">
             {% for filme in filmes %}
               <article class="filme">
                 <img src="{{ filme.capa.url }}" alt="{{ filme.nome }}" />
+
                 <div class="overlay">
                   <p>Alugar por R$ 7,90</p>
-                  <button>Adicionar ao carrinho</button>
+
+                  <button class="btnAddCarrinho" data-id="{{ filme.id }}">
+                    Adicionar ao carrinho
+                  </button>
+
                   <br />
+
                   <button onclick="window.location.href='{% url 'detalhes' filme.id %}'">
                     Detalhes
                   </button>
@@ -91,6 +112,7 @@
               </article>
             {% endfor %}
           </div>
+
           <button class="btn btn-right">&#10095;</button>
         </section>
       {% endif %}
@@ -107,5 +129,7 @@
   </footer>
 
   <script src="{% static 'main/js/interaction.js' %}"></script>
+  <script src="{% static 'main/js/carrinho.js' %}"></script>
+
 </body>
 </html>
