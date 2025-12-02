@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import CustomUserCreationForm
-from .models import Filme
 
 from django.http import HttpResponseForbidden
 
@@ -47,8 +46,10 @@ def index_login(request):
 
     return render(request, 'main/index_login.html')
 
-def trailer(request):
-    return render(request, 'main/trailer.html')
+
+def detalhes(request, filme_id):
+    filme = Filme.objects.get(id=filme_id)
+    return render(request, 'main/detalhes.html', {"filme": filme})
 
 
 def register(request):

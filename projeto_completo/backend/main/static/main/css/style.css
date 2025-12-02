@@ -123,3 +123,11 @@ h2{
   color: rgb(115, 116, 117);
 }
 
+.cabecalho__click svg {
+    transition: 0.2s;
+}
+
+.cabecalho__click:hover svg {
+    stroke: #f8e263; /* mesma cor hover dos botões */
+    transform: scale(1.1);
+}

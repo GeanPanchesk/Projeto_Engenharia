@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ filme.nome }} - Detalhes</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+
+    <style>
+        /* Para garantir que o footer fique no final */
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1; /* empurra o footer para baixo */
+        }
+
+        /* Estilos específicos desta página */
+        .detalhes-container {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            margin: 40px 50px;
+        }
+
+        .detalhes-capa img {
+            width: 320px;
+            height: 480px;
+            object-fit: cover;
+            border: 2px solid black;
+            border-radius: 8px;
+        }
+
+        .detalhes-info {
+            display: flex;
+            flex-direction: column;
+            max-width: 700px;
+        }
+
+        .detalhes-info h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .detalhes-info p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .details-btn {
+            padding: 10px 18px;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            color: black;
+            font-weight: 600;
+        }
+
+        .details-btn:hover {
+            background-color: #f8e263;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="cabecalho">
+        <nav class="lista__cabecalho">
+            <p>MovieStar⭐</p>
+            <a href="{% url 'index' %}" class="cabecalho__click">Home</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- TÍTULO -->
+        <h2>{{ filme.nome }}</h2>
+
+        <!-- CONTEÚDO -->
+        <section class="detalhes-container">
+            
+            <div class="detalhes-capa">
+                <img src="{{ filme.capa.url }}" alt="Capa do filme {{ filme.nome }}">
+            </div>
+
+            <div class="detalhes-info">
+                <h2>Sinopse</h2>
+                <p>{{ filme.sinopse }}</p>
+
+                <p class="imdb">IMDB: ⭐ {{ filme.nota_imdb }}</p>
+
+                <div class="buttons-container">
+                    <a href="{{ filme.link_trailer }}" target="_blank" class="details-btn">▶ Assistir Trailer</a>
+
+                    <a href="#" class="details-btn">🛒 Adicionar ao Carrinho</a>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p class="logo__footer">MovieStar⭐</p>
+        <article>
+            <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+            <p>© 2025 - Todos os direitos reservados</p>
+        </article>
+    </footer>
+
+</body>
+</html>
