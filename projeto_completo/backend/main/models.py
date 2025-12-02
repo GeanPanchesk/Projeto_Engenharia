@@ -38,3 +38,25 @@ class Filme(models.Model):
         return self.nome
 
 
+
+class Carrinho(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def total_itens(self):
+        return self.itens.count()
+
+    def total_preco(self):
+        return sum(item.preco for item in self.itens.all())
+
+    def __str__(self):
+        return f"Carrinho de {self.usuario.username}"
+
+class ItemCarrinho(models.Model):
+    carrinho = models.ForeignKey(Carrinho, related_name="itens", on_delete=models.CASCADE)
+    filme = models.ForeignKey('Filme', on_delete=models.CASCADE)
+    preco = models.DecimalField(max_digits=6, decimal_places=2, default=7.90)
+
+    def __str__(self):
+        return f"{self.filme.nome} - R$ {self.preco}"
+
+
