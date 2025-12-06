@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  background-color: #fff4b8;
+  background-color: #141414;
 }
 
 .carrossel {
@@ -81,10 +81,11 @@
   font-weight: 600;
   font-size: 16px;
   transition: background-color 0.3s;
+  margin-bottom: 10px;
 }
 
 .filme .overlay button:hover {
-  background-color: #f8e263;
+  background-color: #141414;
 }
 .filme {
   display: block;
