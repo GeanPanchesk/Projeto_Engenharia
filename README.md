@@ -35,7 +35,8 @@ Clone o repositório:
 git clone https://github.com/GeanPanchesk/Projeto_Engenharia
 cd Projeto_completo
 docker-compose up --build
-'''
+```
+Acesse a aplicação em: http://localhost:8000
 
 
 ##  Estrutura do Projeto
