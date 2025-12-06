@@ -6,20 +6,18 @@ O sistema permite que usuários possam:
 - Criar conta e realizar login  
 - Navegar pelo catálogo de filmes  
 - Adicionar/remover filmes do carrinho  
-- Finalizar a compra com pagamento simulado  
+- Adicionar filme na biblioteca e remover filme da biblioteca  
 
 
 ##  Tecnologias Utilizadas
 
+### Para o desenvolvimento foi utilizado o Docker
 ### Frontend
-- **React.js** → criação das interfaces (HTML, CSS e JS).  
+- Criação das interfaces (HTML, CSS e JS).  
 
 ### Backend
 - **Django (Python)** → responsável pela lógica do sistema e API.  
-- **Django REST Framework (DRF)** → criação dos endpoints (CRUD de usuários, filmes e carrinho).  
-
-### Banco de Dados 
-
+- **Foi utilizado do SQL do próprio django** → criação dos endpoints (CRUD de usuários, filmes e carrinho).  
 
 ##  Estrutura do Projeto
 
