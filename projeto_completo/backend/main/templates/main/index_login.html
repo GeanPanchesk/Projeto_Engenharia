@@ -6,60 +6,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MovieStar - Login</title>
     <style>
-      html,
-      body {
+      
+      html, body {
         margin: 0;
         padding: 0;
         height: 100%;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #141414; 
+        color: #fff;
       }
+
+      
       .log_in {
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
+        background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)); 
       }
+
+      /* O cartão do formulário */
       .texts_log_in {
-        background-color: #fff4b8;
+        background-color: rgba(0, 0, 0, 0.75); 
+        padding: 60px 68px 40px; 
+        border-radius: 8px; 
         display: flex;
         flex-direction: column;
-        gap: 30px;
-        padding-left: 200px;
-        padding-right: 200px;
-        margin-top: 10vh;
-        margin-bottom: 10vh;
-        height: calc(80vh);
-        border: 1px solid black;
+        gap: 16px; 
+        width: 100%;
+        max-width: 350px; 
+        min-height: 400px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5); 
       }
+
       h1 {
-        font-size: 50px;
+        font-size: 32px;
+        margin-bottom: 20px;
+        text-align: left;
+        font-weight: bold;
+        color: #fff;
       }
+
+      
+      input {
+        background-color: #333;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        height: 50px;
+        padding: 0 20px;
+        font-size: 16px;
+        outline: none;
+      }
+
+      input::placeholder {
+        color: #8c8c8c;
+      }
+
+      input:focus {
+        background-color: #454545;
+        border-bottom: 2px solid #ffd900; /* Detalhe amarelo ao clicar */
+      }
+
+      
       button {
         background-color: #ffd900;
-        font-size: 15px;
-      }
-      button:hover {
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        color: #141414;
         font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        height: 48px;
+        cursor: pointer;
+        margin-top: 24px;
+        transition: all 0.2s ease;
       }
-      input {
-        width: 300px;
-        height: 30px;
+
+      button:hover {
+        background-color: #ffe033;
+        transform: scale(1.02); 
       }
+
+      
       form article {
-        display: initial;
+        margin-top: 10px;
+        color: #737373;
+        font-size: 14px;
+        display: flex;
+        gap: 5px;
+        align-items: center;
       }
-      form article a {
-        background-color: #ffd900;
-        padding: 5px;
-        border: 1px solid black;
-        text-decoration: none;
-        color: black;
-      }
-      form article a:hover {
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-      }
-      .error-msg {
-        color: red;
+
+      form article p {
         margin: 0;
+      }
+
+      form article a {
+        color: #fff;
+        text-decoration: none;
+        background: none;
+        border: none;
+        padding: 0;
+        font-weight: 500;
+      }
+
+      form article a:hover {
+        text-decoration: underline;
+        color: #ffd900;
+        box-shadow: none;
+      }
+
+      
+      .error-msg {
+        color: #e87c03;
+        font-size: 14px;
+        margin: 0;
+        background: rgba(232, 124, 3, 0.1);
+        padding: 10px;
+        border-radius: 4px;
+        border-left: 3px solid #e87c03;
       }
     </style>
   </head>
@@ -67,17 +131,20 @@
   <body class="log_in">
     <form action="{% url 'index_login' %}" method="POST" class="texts_log_in">
       {% csrf_token %}
-      <h1>Login</h1>
+      
+      <h1>Entrar</h1>
 
-      {% if messages %} {% for message in messages %}
-      <p class="error-msg">{{ message }}</p>
-      {% endfor %} {% endif %}
+      {% if messages %} 
+        {% for message in messages %}
+          <p class="error-msg">{{ message }}</p>
+        {% endfor %} 
+      {% endif %}
 
       <input
         type="text"
         id="username"
         name="username"
-        placeholder="Usuário"
+        placeholder="Email ou usuário"
         required
       />
 
@@ -92,8 +159,8 @@
       <button type="submit">Entrar</button>
 
       <article>
-        <p>É novo por aqui?</p>
-        <a href="{% url 'index_cadastro' %}">Cadastre-se</a>
+        <p>Novo por aqui?</p>
+        <a href="{% url 'index_cadastro' %}">Cadastre-se.</a>
       </article>
     </form>
   </body>
