@@ -14,6 +14,7 @@ urlpatterns = [
     path("carrinho/add/<int:filme_id>/", views.adicionar_ao_carrinho, name="add_carrinho"),
     path("carrinho/remover/<int:item_id>/", views.remover_item, name="remover_item"),
     path("carrinho/qtd/", views.carrinho_qtd, name="carrinho_qtd"),
-
+    path("perfil/", views.perfil, name="perfil"),
+    path("excluir_conta/", views.excluir_conta, name="excluir_conta"),
     
 ]

@@ -10,6 +10,65 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet" />
   <title>MovieStar</title>
+
+  <style>
+    /* Estilo do dropdown */
+    .user-menu-btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: none;
+      border: 2px solid black;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .user-menu-btn:hover {
+      background: #f4f4f4;
+    }
+
+    .user-dropdown {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px 0;
+      width: 150px;
+      right: 0;
+      top: 40px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+
+    .user-dropdown a,
+    .user-dropdown button {
+      text-decoration: none;
+      color: black;
+      padding: 8px 15px;
+      text-align: left;
+      width: 100%;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .user-dropdown a:hover,
+    .user-dropdown button:hover {
+      background: #eee;
+    }
+
+    .user-menu-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+  </style>
+
 </head>
 <body class="app">
 
@@ -24,20 +83,30 @@
       <input type="text" id="campoBusca" placeholder="🔍​Buscar filme..." />
 
       {% if request.user.is_authenticated %}
-        <p>Olá, {{ request.user.username }}</p>
+        <!-- MENU DO USUÁRIO -->
+        <div class="user-menu-wrapper">
+          <button class="user-menu-btn" id="userMenuBtn">
+            {{ request.user.username }}
+            ▼
+          </button>
+
+          <div class="user-dropdown" id="userDropdown">
+            <a href="{% url 'perfil' %}">Meu Perfil</a>
+
+
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit">Sair</button>
+            </form>
+          </div>
+        </div>
       {% endif %}
 
-      {% if request.user.is_authenticated %}
-        <form action="{% url 'logout' %}" method="post" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit" class="cabecalho__click">Sair</button>
-        </form>
-      {% endif %}
-      
       <article>
         {% if request.user.is_authenticated and request.user.profile.is_movie_admin %}
           <a href="{% url 'add_filme' %}" class="cabecalho__click">Adicionar Filmes</a>
         {% endif %}
+
         {% if not request.user.is_authenticated %}
           <a class="cabecalho__click" href="{% url 'index_login' %}">Login</a>
         {% endif %}
@@ -121,7 +190,6 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p class="logo__footer">MovieStar⭐</p>
     <article>
       <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
       <p>©2025 - MovieStar, todos os direitos reservados</p>
@@ -130,6 +198,23 @@
 
   <script src="{% static 'main/js/interaction.js' %}"></script>
   <script src="{% static 'main/js/carrinho.js' %}"></script>
+
+  <!-- JS do dropdown -->
+  <script>
+    const btn = document.getElementById("userMenuBtn");
+    const menu = document.getElementById("userDropdown");
+
+    btn?.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    // Fecha se clicar fora
+    document.addEventListener("click", (e) => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
 
 </body>
 </html>
