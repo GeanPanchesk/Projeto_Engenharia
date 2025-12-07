@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu Perfil</title>
+
+    <style>
+        /* === RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* === HEADER === */
+        header {
+            width: 100%;
+            padding: 15px 20px;
+            background: #111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            border-bottom: 1px solid #333;
+        }
+
+        header .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        header a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        header .home-btn {
+            background: #ffd900;
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        /* === CONTAINER PRINCIPAL === */
+        .container {
+            margin-top: 90px;
+            padding: 20px;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: calc(100vh - 90px - 80px);
+        }
+
+        /* === ABAS === */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #333;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #222;
+            color: #fff;
+            margin-right: 10px;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #333;
+        }
+
+        .tab.active {
+            background: #ffd900;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .aba-conteudo {
+            display: none;
+        }
+
+        .aba-conteudo.ativa {
+            display: block;
+        }
+
+        /* === BOTÕES === */
+        .btn-perigo {
+            background: #ff4d4d;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-sair {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* === MODAL === */
+        .modal-fundo {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal {
+            background: #111;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 350px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+
+        .modal-btn {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .modal-btn button {
+            width: 45%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cancelar {
+            background: #444;
+            color: #fff;
+        }
+
+        .confirmar {
+            background: #ff4d4d;
+            color: #fff;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: #111;
+            color: #bbb;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            border-top: 1px solid #333;
+        }
+    </style>
+
+    <script>
+        function trocarAba(aba) {
+            document.querySelectorAll(".aba-conteudo").forEach(div => div.classList.remove("ativa"));
+            document.querySelectorAll(".tab").forEach(btn => btn.classList.remove("active"));
+
+            document.getElementById(aba).classList.add("ativa");
+            document.getElementById("tab-" + aba).classList.add("active");
+        }
+
+        function abrirModal() {
+            document.getElementById("modalExcluir").style.display = "flex";
+        }
+
+        function fecharModal() {
+            document.getElementById("modalExcluir").style.display = "none";
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <span class="logo">MovieStar⭐</span>
+        <a href="/" class="home-btn">Home</a>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <div class="container">
+
+        <!-- ABAS -->
+        <div class="tabs">
+            <div class="tab active" id="tab-catalogo" onclick="trocarAba('catalogo')">Meu Catálogo</div>
+            <div class="tab" id="tab-conta" onclick="trocarAba('conta')">Conta</div>
+        </div>
+
+        <!-- ABA CATÁLOGO -->
+        <div id="catalogo" class="aba-conteudo ativa">
+            <h2>Meu Catálogo</h2>
+            <p style="margin-top: 10px; color: #ccc;">Em breve você poderá gerenciar seu catálogo aqui.</p>
+        </div>
+
+        <!-- ABA CONTA -->
+        <div id="conta" class="aba-conteudo">
+            <h2>Informações da Conta</h2>
+
+            <p><strong>Usuário:</strong> {{ request.user.username }}</p>
+            <p><strong>Email:</strong> {{ request.user.email }}</p>
+
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn-sair" type="submit">Sair</button>
+            </form>
+
+            {% if request.user.username != "admin" %}
+                <button class="btn-perigo" onclick="abrirModal()">Excluir Conta</button>
+            {% else %}
+                <button class="btn-perigo" disabled style="opacity:0.5; cursor:not-allowed;">
+                    Exclusão indisponível para admin
+                </button>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- MODAL DE CONFIRMAÇÃO -->
+    <div class="modal-fundo" id="modalExcluir">
+        <div class="modal">
+            <h3>Tem certeza?</h3>
+            <p>Essa ação é permanente e não pode ser desfeita.</p>
+
+            <div class="modal-btn">
+                <button class="cancelar" onclick="fecharModal()">Cancelar</button>
+
+                <form action="{% url 'excluir_conta' %}" method="post" style="width: 45%;">
+                    {% csrf_token %}
+                    <button type="submit" class="confirmar">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+    <article>
+      <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+      <p>©2025 - MovieStar, todos os direitos reservados</p>
+    </article>
+  </footer>
+
+</body>
+</html>

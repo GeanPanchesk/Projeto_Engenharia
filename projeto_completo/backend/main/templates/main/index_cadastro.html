@@ -55,8 +55,6 @@
         padding: 0 20px;
         font-size: 16px;
         outline: none;
-        width: 100%; 
-        box-sizing: border-box; 
       }
 
       input::placeholder {
@@ -69,7 +67,7 @@
       }
 
       
-      .btn-submit {
+      button {
         background-color: #ffd900;
         color: #141414;
         font-size: 16px;
@@ -83,7 +81,7 @@
         width: 100%;
       }
 
-      .btn-submit:hover {
+      button:hover {
         background-color: #ffe033;
         transform: scale(1.02);
         box-shadow: 0 0 10px rgba(255, 217, 0, 0.2);
@@ -165,8 +163,9 @@
         placeholder="Repita sua senha"
         required
       />
-
       <button type="submit" id="btnEnviar" class="btn-submit">Criar conta</button>
+      <button type="button" style="width: 100px; align-self: flex-start;" onclick="window.location.href='{% url 'index' %}'">Home</button>
+
     </form>
 
     <script src="{% static 'main/js/interaction.js' %}"></script>
@@ -174,14 +173,6 @@
       const form = document.getElementById("formRegistro");
       const senha1 = form.querySelector('[name="password1"]');
       const senha2 = form.querySelector('[name="password2"]');
-
-      form.addEventListener("submit", function (event) {
-        if (senha1.value !== senha2.value) {
-          event.preventDefault();
-
-          alert("As senhas não coincidem."); 
-        }
-      });
     </script>
   </body>
 </html>

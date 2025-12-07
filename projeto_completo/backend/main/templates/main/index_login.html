@@ -144,7 +144,7 @@
         type="text"
         id="username"
         name="username"
-        placeholder="Email ou usuário"
+        placeholder="Usuário"
         required
       />
 
@@ -162,6 +162,8 @@
         <p>Novo por aqui?</p>
         <a href="{% url 'index_cadastro' %}">Cadastre-se.</a>
       </article>
+      <button type="button" style="width: 100px; align-self: flex-start;" onclick="window.location.href='{% url 'index' %}'">Home</button>
+
     </form>
   </body>
 </html>

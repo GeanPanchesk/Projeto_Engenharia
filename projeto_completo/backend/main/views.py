@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
 
 from django.http import HttpResponseForbidden, JsonResponse
 
@@ -133,6 +134,23 @@ def carrinho_qtd(request):
     carrinho, _ = Carrinho.objects.get_or_create(usuario=request.user)
     total = ItemCarrinho.objects.filter(carrinho=carrinho).count()
     return JsonResponse({"ok": True, "total": total})
+
+
+
+@login_required
+def perfil(request):
+    return render(request, "main/perfil.html")
+
+@login_required
+def excluir_conta(request):
+    if request.method == "POST":
+        user = request.user
+        logout(request)   # desloga antes de excluir
+        user.delete()     # exclui conta
+        return redirect("index")  # volta para home após exclusão
+    
+    return redirect("perfil")
+
 
 
 
