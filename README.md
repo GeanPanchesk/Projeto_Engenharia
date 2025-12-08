@@ -17,7 +17,7 @@ O sistema permite que usuários possam:
 
 ### Backend
 - **Django (Python)** → responsável pela lógica do sistema e API.  
-- **Foi utilizado o SQL do próprio django** → criação dos endpoints (CRUD de usuários, filmes e carrinho).  
+- **Foi utilizado o SQLite do próprio django** → criação dos endpoints (CRUD de usuários, filmes e carrinho).  
 
 ## Como rodar o projeto
 
