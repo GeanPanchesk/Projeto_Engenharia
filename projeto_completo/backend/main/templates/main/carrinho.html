@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Carrinho - MovieStar</title>
+    <title>MovieStar - Carrinho</title>
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 
     <style>
@@ -176,9 +176,10 @@
             <div class="resumo-carrinho">
                 <h3 class="total-preco">Total: R$ {{ carrinho.total_preco }}</h3>
 
-                <button class="btn-pagar">
-                    Pagar Agora
-                </button>
+                <form action="{% url 'alugar' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn-pagar" type="submit">Alugar</button>
+                </form>
             </div>
 
         {% else %}

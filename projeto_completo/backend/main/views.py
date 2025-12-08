@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, JsonResponse
 
 from .forms import FilmeForm
-from .models import Filme, Carrinho, ItemCarrinho
+from .models import Filme, Carrinho, ItemCarrinho, CatalogoPessoal
 from django.contrib.auth.decorators import login_required
 
 def index(request):
@@ -135,11 +135,9 @@ def carrinho_qtd(request):
     total = ItemCarrinho.objects.filter(carrinho=carrinho).count()
     return JsonResponse({"ok": True, "total": total})
 
-
-
-@login_required
 def perfil(request):
-    return render(request, "main/perfil.html")
+    catalogo, criado = CatalogoPessoal.objects.get_or_create(user=request.user)
+    return render(request, "main/perfil.html", {"catalogo": catalogo})
 
 @login_required
 def excluir_conta(request):
@@ -150,6 +148,29 @@ def excluir_conta(request):
         return redirect("index")  # volta para home após exclusão
     
     return redirect("perfil")
+
+@login_required
+def alugar_filmes(request):
+
+    carrinho, _ = Carrinho.objects.get_or_create(usuario=request.user)
+    catalogo, _ = CatalogoPessoal.objects.get_or_create(user=request.user)
+
+    # adicionar todos os filmes ao catálogo
+    for item in carrinho.itens.all():
+        catalogo.filmes.add(item.filme)
+
+    # esvaziar carrinho
+    carrinho.itens.all().delete()
+
+    messages.success(request, "Filmes adicionados ao seu catálogo!")
+
+    return redirect('perfil')
+
+@login_required
+def remover_do_catalogo(request, filme_id):
+    request.user.catalogo.filmes.remove(filme_id)
+    return redirect('perfil')
+
 
 
 

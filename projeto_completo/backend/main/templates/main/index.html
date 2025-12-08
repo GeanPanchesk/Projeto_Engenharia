@@ -19,21 +19,16 @@
       align-items: center;
       gap: 6px;
       padding: 6px 10px;
-      background: none;
-      border: 2px solid black;
+      background: #ffd900;
       border-radius: 6px;
       font-weight: bold;
       transition: 0.2s;
     }
 
-    .user-menu-btn:hover {
-      background: #f4f4f4;
-    }
-
     .user-dropdown {
       position: absolute;
-      background: white;
-      border: 1px solid #ccc;
+      background: #111;
+      border: 1px solid #111;
       border-radius: 8px;
       padding: 10px 0;
       width: 150px;
@@ -48,7 +43,7 @@
     .user-dropdown a,
     .user-dropdown button {
       text-decoration: none;
-      color: black;
+      color: white;
       padding: 8px 15px;
       text-align: left;
       width: 100%;
@@ -60,7 +55,8 @@
 
     .user-dropdown a:hover,
     .user-dropdown button:hover {
-      background: #eee;
+      background: #ffd900;
+      color: black;
     }
 
     .user-menu-wrapper {
@@ -91,12 +87,10 @@
           </button>
 
           <div class="user-dropdown" id="userDropdown">
-            <a href="{% url 'perfil' %}">Meu Perfil</a>
-
-
+            <button type="button" title="Catálogo pessoal e opções da conta" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
             <form action="{% url 'logout' %}" method="post">
               {% csrf_token %}
-              <button type="submit">Sair</button>
+              <button type="submit" title="Sair da conta">Sair</button>
             </form>
           </div>
         </div>
@@ -112,18 +106,21 @@
         {% endif %}
 
         <!-- Carrinho -->
-        <a class="cabecalho__click cart-icon" href="{% url 'carrinho' %}">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
+        <form action="{% url 'carrinho' %}" method="get" class="cart-form">
+            <button class="cabecalho__click cart-icon" type="submit">
+                <svg width="24" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
 
-            {% if request.user.is_authenticated %}
-                <span id="carrinhoQtd" class="cart-count"></span>
-            {% endif %}
-        </a>
+                {% if request.user.is_authenticated %}
+                    <span id="carrinhoQtd" class="cart-count"></span>
+                {% endif %}
+            </button>
+        </form>
+
 
       </article>
     </nav>

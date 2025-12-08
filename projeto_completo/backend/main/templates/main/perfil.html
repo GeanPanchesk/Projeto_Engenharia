@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meu Perfil</title>
+    <title>MovieStar - Perfil</title>
 
     <style>
         /* === RESET === */
@@ -42,20 +42,16 @@
             font-weight: bold;
         }
 
-        header a {
-            text-decoration: none;
-            color: #fff;
-        }
-
         header .home-btn {
             background: #ffd900;
             color: #000;
             padding: 6px 12px;
             border-radius: 8px;
             font-weight: bold;
+            text-decoration: none;
         }
 
-        /* === CONTAINER PRINCIPAL === */
+        /* === CONTAINER === */
         .container {
             margin-top: 90px;
             padding: 20px;
@@ -89,12 +85,44 @@
             font-weight: bold;
         }
 
-        .aba-conteudo {
-            display: none;
+        .aba-conteudo { display: none; }
+        .aba-conteudo.ativa { display: block; }
+
+        /* === ESTILO DO CATÁLOGO === */
+        .filme-item {
+            background: #1a1a1a;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            border-radius: 6px;
         }
 
-        .aba-conteudo.ativa {
-            display: block;
+        .filme-item img {
+            width: 70px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .filme-item span {
+            margin-left: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .btn-remover {
+            margin-left: auto;
+            color: #ff4d4d;
+            border: 1px solid #ff4d4d;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-remover:hover {
+            background: #ff4d4d;
+            color: #000;
         }
 
         /* === BOTÕES === */
@@ -147,26 +175,6 @@
             justify-content: space-between;
         }
 
-        .modal-btn button {
-            width: 45%;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .cancelar {
-            background: #444;
-            color: #fff;
-        }
-
-        .confirmar {
-            background: #ff4d4d;
-            color: #fff;
-        }
-
-        /* === FOOTER === */
         footer {
             background: #111;
             color: #bbb;
@@ -175,6 +183,64 @@
             margin-top: auto;
             border-top: 1px solid #333;
         }
+
+    /* Estilo do dropdown */
+    .user-menu-btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: #ffd900;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: 0.2s;
+      color: black;
+    }
+
+    .user-dropdown {
+      position: absolute;
+      background: #111;
+      border: 1px solid #111;
+      border-radius: 8px;
+      padding: 10px 0;
+      width: 150px;
+      right: 0;
+      top: 40px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+
+    .user-dropdown a,
+    .user-dropdown button {
+      text-decoration: none;
+      color: white;
+      padding: 8px 15px;
+      text-align: left;
+      width: 100%;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .user-dropdown a:hover,
+    .user-dropdown button:hover {
+      background: #ffd900;
+      color: black;
+    }
+
+    .user-menu-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    #header-buttons{
+        display: flex;
+        gap: 10px;
+    }
     </style>
 
     <script>
@@ -198,25 +264,71 @@
 
 <body>
 
-    <!-- HEADER -->
     <header>
         <span class="logo">MovieStar⭐</span>
-        <a href="/" class="home-btn">Home</a>
+        <div id="header-buttons">
+            <!-- MENU DO USUÁRIO -->
+            <div class="user-menu-wrapper">
+            <a class="user-menu-btn" id="userMenuBtn">
+                {{ request.user.username }}
+                ▼
+            </a>
+
+            <div class="user-dropdown" id="userDropdown">
+                <button type="button" title="Catálogo pessoal e opções da conta" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
+                <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" title="Sair da conta">Sair</button>
+                </form>
+            </div>
+            </div>
+            <a href="/" class="home-btn">Home</a>
+    </div>
     </header>
 
-    <!-- CONTEÚDO -->
     <div class="container">
 
-        <!-- ABAS -->
+            {% if messages %}
+        <div style="
+            background: #0f0f0f;
+            color: #ffd900;
+            padding: 12px 15px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+        ">
+            {% for m in messages %}
+                {{ m }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
         <div class="tabs">
             <div class="tab active" id="tab-catalogo" onclick="trocarAba('catalogo')">Meu Catálogo</div>
             <div class="tab" id="tab-conta" onclick="trocarAba('conta')">Conta</div>
         </div>
 
-        <!-- ABA CATÁLOGO -->
+        <!-- ABA CATÁLOGO FUNCIONAL -->
         <div id="catalogo" class="aba-conteudo ativa">
             <h2>Meu Catálogo</h2>
-            <p style="margin-top: 10px; color: #ccc;">Em breve você poderá gerenciar seu catálogo aqui.</p>
+
+            {% if catalogo.filmes.all %}
+                {% for filme in catalogo.filmes.all %}
+                    <div class="filme-item">
+                        <img src="{{ filme.capa.url }}" />
+                        <span>{{ filme.nome }}</span>
+
+                        <a class="btn-remover" href="{% url 'remover_do_catalogo' filme.id %}">
+                            Reembolso
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="color:#ccc; margin-top:15px;">Você ainda não alugou nenhum filme.</p>
+            {% endif %}
         </div>
 
         <!-- ABA CONTA -->
@@ -234,7 +346,7 @@
             {% if request.user.username != "admin" %}
                 <button class="btn-perigo" onclick="abrirModal()">Excluir Conta</button>
             {% else %}
-                <button class="btn-perigo" disabled style="opacity:0.5; cursor:not-allowed;">
+                <button class="btn-perigo" disabled style="opacity:.5; cursor:not-allowed;">
                     Exclusão indisponível para admin
                 </button>
             {% endif %}
@@ -242,16 +354,16 @@
 
     </div>
 
-    <!-- MODAL DE CONFIRMAÇÃO -->
+    <!-- Modal -->
     <div class="modal-fundo" id="modalExcluir">
         <div class="modal">
             <h3>Tem certeza?</h3>
-            <p>Essa ação é permanente e não pode ser desfeita.</p>
+            <p>Essa ação é permanente.</p>
 
             <div class="modal-btn">
                 <button class="cancelar" onclick="fecharModal()">Cancelar</button>
 
-                <form action="{% url 'excluir_conta' %}" method="post" style="width: 45%;">
+                <form action="{% url 'excluir_conta' %}" method="post" style="width:45%;">
                     {% csrf_token %}
                     <button type="submit" class="confirmar">Excluir</button>
                 </form>
@@ -259,13 +371,30 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-    <article>
-      <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
-      <p>©2025 - MovieStar, todos os direitos reservados</p>
-    </article>
-  </footer>
+    <footer>
+        <article>
+            <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+            <p>©2025 - MovieStar, todos os direitos reservados</p>
+        </article>
+    </footer>
+
+
+    <script> 
+        <!-- JS do dropdown -->
+        const btn = document.getElementById("userMenuBtn");
+        const menu = document.getElementById("userDropdown");
+
+        btn?.addEventListener("click", () => {
+        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+        });
+
+        // Fecha se clicar fora
+        document.addEventListener("click", (e) => {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.style.display = "none";
+        }
+        });
+    </script>
 
 </body>
 </html>
