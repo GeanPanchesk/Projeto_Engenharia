@@ -19,7 +19,7 @@ O sistema permite que usuários possam:
 - **Django (Python)** → responsável pela lógica do sistema e API.  
 - **Foi utilizado o SQL do próprio django** → criação dos endpoints (CRUD de usuários, filmes e carrinho).  
 
-## 🚀 Como rodar o projeto
+## Como rodar o projeto
 
 Você pode rodar a aplicação usando **Docker** (recomendado) ou manualmente com **Python/Pipenv**.
 
