@@ -19,21 +19,25 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => atualizarBadge(data.total));
     }
 
-    // botões de adicionar ao carrinho
-    document.querySelectorAll(".btnAddCarrinho").forEach(btn => {
-        btn.addEventListener("click", () => {
-            if (!window.USER_IS_LOGGED_IN) {
-                window.location.href = "/login/";
-                return;
-            }
+document.addEventListener("click", (e) => {
 
-            const filmeId = btn.dataset.id;
+    // clica em botão com data-id
+    const btn = e.target.closest("[data-id]");
 
-            fetch(`/carrinho/add/${filmeId}/`)
-                .then(r => r.json())
-                .then(data => {
-                    if (data.ok) atualizarBadge(data.total);
-                });
+    if (!btn) return;
+
+    if (!window.USER_IS_LOGGED_IN) {
+        window.location.href = "/login/";
+        return;
+    }
+
+    const filmeId = btn.dataset.id;
+
+    fetch(`/carrinho/add/${filmeId}/`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.ok) atualizarBadge(data.total);
         });
-    });
+});
+
 });

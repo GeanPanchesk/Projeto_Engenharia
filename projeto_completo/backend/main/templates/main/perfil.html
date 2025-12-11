@@ -1,18 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
     <title>MovieStar - Perfil</title>
 
     <style>
-        /* === RESET === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             background: #000;
             color: #fff;
@@ -21,36 +16,6 @@
             flex-direction: column;
             min-height: 100vh;
         }
-
-        /* === HEADER === */
-        header {
-            width: 100%;
-            padding: 15px 20px;
-            background: #111;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            border-bottom: 1px solid #333;
-        }
-
-        header .logo {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        header .home-btn {
-            background: #ffd900;
-            color: #000;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
         /* === CONTAINER === */
         .container {
             margin-top: 90px;
@@ -175,68 +140,6 @@
             justify-content: space-between;
         }
 
-        footer {
-            background: #111;
-            color: #bbb;
-            text-align: center;
-            padding: 20px;
-            margin-top: auto;
-            border-top: 1px solid #333;
-        }
-
-    /* Estilo do dropdown */
-    .user-menu-btn {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      background: #ffd900;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: 0.2s;
-      color: black;
-    }
-
-    .user-dropdown {
-      position: absolute;
-      background: #111;
-      border: 1px solid #111;
-      border-radius: 8px;
-      padding: 10px 0;
-      width: 150px;
-      right: 0;
-      top: 40px;
-      display: none;
-      flex-direction: column;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 999;
-    }
-
-    .user-dropdown a,
-    .user-dropdown button {
-      text-decoration: none;
-      color: white;
-      padding: 8px 15px;
-      text-align: left;
-      width: 100%;
-      border: none;
-      background: none;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    .user-dropdown a:hover,
-    .user-dropdown button:hover {
-      background: #ffd900;
-      color: black;
-    }
-
-    .user-menu-wrapper {
-      position: relative;
-      display: inline-block;
-    }
-
     #header-buttons{
         display: flex;
         gap: 10px;
@@ -264,27 +167,52 @@
 
 <body>
 
-    <header>
-        <span class="logo">MovieStar⭐</span>
-        <div id="header-buttons">
-            <!-- MENU DO USUÁRIO -->
-            <div class="user-menu-wrapper">
-            <a class="user-menu-btn" id="userMenuBtn">
-                {{ request.user.username }}
-                ▼
-            </a>
+ <!-- HEADER -->
+  <header class="header-global">
+    <nav style="width:100%; display:flex; justify-content:space-between; align-items:center;">
 
-            <div class="user-dropdown" id="userDropdown">
-                <button type="button" title="Catálogo pessoal e opções da conta" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
+      <span class="header-logo">MovieStar⭐</span>
+
+        <div class="header-buttons">
+
+            <form action="/" method="get">
+                <button type="submit" class="btn-home">Home</button>
+            </form>
+
+
+            <!-- MENU DO USUÁRIO -->
+            {% if request.user.is_authenticated %}
+            <div class="user-menu-wrapper">
+              <button class="user-menu-btn" id="userMenuBtn">
+                {{ request.user.username }} ▼
+              </button>
+
+              <div class="user-dropdown" id="userDropdown">
+                <button type="button" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
                 <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" title="Sair da conta">Sair</button>
+                  {% csrf_token %}
+                  <button type="submit">Sair</button>
                 </form>
+              </div>
             </div>
-            </div>
-            <a href="/" class="home-btn">Home</a>
-    </div>
-    </header>
+          {% endif %}
+
+            {% if request.user.is_authenticated and request.user.profile.is_movie_admin %}
+                <form action="{% url 'add_filme' %}" method="get">
+                    <button type="submit" class="header-link" id="addBtn" >Adicionar Filmes</button>
+                </form>
+
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
+                <form action="{% url 'index_login' %}" method="get">
+                    <button type="submit" class="header-link">Login</button>
+                </form>
+            {% endif %}
+        </div>
+
+    </nav>
+  </header>
 
     <div class="container">
 
@@ -371,30 +299,30 @@
         </div>
     </div>
 
-    <footer>
-        <article>
-            <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
-            <p>©2025 - MovieStar, todos os direitos reservados</p>
-        </article>
-    </footer>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <article>
+      <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+      <p>©2025 - MovieStar, todos os direitos reservados</p>
+    </article>
+  </footer>
 
 
-    <script> 
-        <!-- JS do dropdown -->
-        const btn = document.getElementById("userMenuBtn");
-        const menu = document.getElementById("userDropdown");
+  <!-- JS do dropdown -->
+  <script>
+    const btn = document.getElementById("userMenuBtn");
+    const menu = document.getElementById("userDropdown");
 
-        btn?.addEventListener("click", () => {
-        menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-        });
+    btn?.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
 
-        // Fecha se clicar fora
-        document.addEventListener("click", (e) => {
-        if (!btn.contains(e.target) && !menu.contains(e.target)) {
-            menu.style.display = "none";
-        }
-        });
-    </script>
+    document.addEventListener("click", (e) => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
 
 </body>
 </html>

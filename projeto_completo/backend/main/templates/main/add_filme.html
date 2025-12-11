@@ -13,13 +13,18 @@
         padding: 50px;
       }
       .form-container {
-        flex: 1;
         max-width: 600px;
+        background: #ffffff10;
+        padding: 30px;
+        border-radius: 10px;
+        backdrop-filter: blur(8px);
+        margin: 20px;
+        margin-top: 70px;
+        border: 1px solid #ffffff30;
       }
       .lista-filmes {
         flex: 1;
         max-width: 400px;
-        background-color: #fff4b8;
         padding: 20px;
         border-radius: 10px;
         height: fit-content;
@@ -50,32 +55,88 @@
       .btn-remover:hover {
         background-color: darkred;
       }
+
+      /* Labels */
+      .form-container label {
+          color: white;
+          font-size: 16px;
+          margin-bottom: 5px;
+          font-weight: 600;
+      }
+
+      /* Inputs e textarea */
+      .form-container input[type="text"],
+      .form-container input[type="number"],
+      .form-container input[type="url"],
+      .form-container input[type="file"],
+      .form-container textarea,
+      .form-container select {
+          width: 100%;
+          padding: 12px;
+          border-radius: 8px;
+          border: 1px solid #444;
+          background: #222;
+          color: white;
+          font-size: 15px;
+          transition: 0.2s;
+      }
+
+      /* Efeito ao focar */
+      .form-container input:focus,
+      .form-container textarea:focus,
+      .form-container select:focus {
+          border-color: #ffcc00;
+          outline: none;
+      }
+
+      /* Checkbox alinhado */
+      .form-container label input[type="checkbox"] {
+          margin-right: 8px;
+      }
+
     </style>
   </head>
 
-  <body class="app">
-    <!-- Cabeçalho -->
-    <header class="cabecalho">
-      <nav class="lista__cabecalho">
-        <p href="logo">MovieStar⭐</p>
-        {% if request.user.is_authenticated %}
-          <p>Olá, {{ request.user.username }}</p>
-          <form action="{% url 'logout' %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="cabecalho__click">Sair</button>
-          </form>
-        {% endif %}
-        <article>
-          <a class="cabecalho__click" href="{% url 'index' %}">Home</a>
-        </article>
-      </nav>
-    </header>
+  <body>
+    <!-- HEADER -->
+  <header class="header-global">
+    <nav style="width:100%; display:flex; justify-content:space-between; align-items:center;">
+
+      <span class="header-logo">MovieStar⭐</span>
+
+        <div class="header-buttons">
+
+            <form action="/" method="get">
+                <button type="submit" class="btn-home">Home</button>
+            </form>
+
+
+            <!-- MENU DO USUÁRIO -->
+            {% if request.user.is_authenticated %}
+            <div class="user-menu-wrapper">
+              <button class="user-menu-btn" id="userMenuBtn">
+                {{ request.user.username }} ▼
+              </button>
+
+              <div class="user-dropdown" id="userDropdown">
+                <button type="button" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">Sair</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+    </nav>
+  </header>
 
     <!-- Conteúdo -->
     <main class="container">
       <!-- Formulário -->
       <div class="form-container">
-        <h2>Adicionar Novo Filme</h2>
+        <h2 style="margin-left: 0px;" >Adicionar Novo Filme</h2>
         <form action="{% url 'add_filme' %}" method="post" enctype="multipart/form-data" style="display:flex; flex-direction:column;">
           {% csrf_token %}
 
@@ -109,7 +170,7 @@
             Destaque na Home
           </label>
 
-          <button type="submit" style="margin-top:20px; padding:10px 20px; background-color:#ffd900; border:none; cursor:pointer; font-weight:600;">
+          <button type="submit" class="header-link">
             Adicionar Filme
           </button>
         </form>
@@ -123,12 +184,12 @@
 
       <!-- Lista de filmes -->
       <div class="lista-filmes">
-        <h2>Filmes Cadastrados</h2>
+        <h2 style="margin-left: 0px; font-size: 40px;">Filmes Cadastrados</h2>
         {% for filme in filmes %}
           <div class="filme-item">
             <div style="display:flex; align-items:center;">
               <img src="{{ filme.capa.url }}" alt="{{ filme.nome }}">
-              <span>{{ filme.nome }}</span>
+              <span style="color: black;">{{ filme.nome }}</span>
             </div>
             <form action="{% url 'remover_filme' filme.id %}" method="post">
               {% csrf_token %}
@@ -141,11 +202,30 @@
       </div>
     </main>
 
-    <footer class="footer">
-      <article>
-        <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
-        <p>©2025 - MovieStar, todos os direitos reservados</p>
-      </article>
-    </footer>
+  <!-- FOOTER -->
+  </br>
+  <footer class="footer">
+    <article>
+      <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+      <p>©2025 - MovieStar, todos os direitos reservados</p>
+    </article>
+  </footer>
+
+    <!-- JS do dropdown -->
+  <script>
+    const btn = document.getElementById("userMenuBtn");
+    const menu = document.getElementById("userDropdown");
+
+    btn?.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
+
   </body>
 </html>
