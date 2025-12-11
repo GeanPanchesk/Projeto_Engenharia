@@ -17,27 +17,15 @@ O sistema permite que usuários possam:
 
 ### Backend
 - **Django (Python)** → responsável pela lógica do sistema e API.  
-- **Foi utilizado o SQLite do próprio django** → criação dos endpoints (CRUD de usuários, filmes e carrinho).  
-
-## Como rodar o projeto
-
-Você pode rodar a aplicação usando **Docker** (recomendado) ou manualmente com **Python/Pipenv**.
+- **Foi utilizado o SQLite do próprio django** → criação dos endpoints (CRUD de usuários, filmes e carrinho).
 
 ### Pré-requisitos
-* [Git](https://git-scm.com)
 * [Docker](https://www.docker.com/) (para rodar via container)
-* [Python 3.10+](https://www.python.org/) e [Pipenv](https://pipenv.pypa.io/en/latest/) (para rodar localmente)
-
+  
 ### Rodando com Docker
 
-Clone o repositório:
-```bash
-git clone https://github.com/GeanPanchesk/Projeto_Engenharia
-cd Projeto_completo
-docker-compose up --build
-```
-Acesse a aplicação em: http://localhost:8000
-
+Após ter clonado o repositório usando git ou via GUI no site do projeto, certifique-se de ter o docker baixado e iniciado, em seguida, basta navegar até a pasta onde escontra-se o arquivo "Dockerfile" e executar no terminal: docker compose up --build.
+Depois, entre no campo de busca do navegador e pesquise por: localhost:8000.
 
 ##  Estrutura do Projeto
 
