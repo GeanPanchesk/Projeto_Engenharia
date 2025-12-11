@@ -125,6 +125,35 @@
         border-radius: 4px;
         border-left: 3px solid #e87c03;
       }
+      .senha-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .senha-container input {
+        width: 94.5%;
+        padding-right: 0px !important; /* mínimo necessário */
+      }
+
+      .toggle-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity .2s;
+        pointer-events: auto;
+      }
+
+      .toggle-btn:hover {
+        opacity: 1;
+      }
+
+
+
     </style>
   </head>
 
@@ -148,13 +177,22 @@
         required
       />
 
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Senha"
-        required
-      />
+      <div class="senha-container">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Senha"
+          required
+        />
+        <div class="toggle-btn" onclick="toggleSenha('password', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+      </div>
+
 
       <button type="submit">Entrar</button>
 
@@ -165,5 +203,34 @@
       <button type="button" style="width: 100px; align-self: flex-start;" onclick="window.location.href='{% url 'index' %}'">Home</button>
 
     </form>
+    <script>
+    function toggleSenha(idCampo, botao) {
+        const campo = document.getElementById(idCampo);
+        
+        const svgFechado = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.94 17.94A10.96 10.96 0 0112 20c-5 0-9.27-3.11-11-8
+            1-2.7 2.7-4.94 4.82-6.35"/>
+            <path d="M1 1l22 22"/>
+            <path d="M9.53 9.53A3 3 0 0114.47 14.47"/>
+          </svg>`;
+
+        const svgAberto = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>`;
+
+        if (campo.type === "password") {
+            campo.type = "text";
+            botao.innerHTML = svgFechado;
+        } else {
+            campo.type = "password";
+            botao.innerHTML = svgAberto;
+        }
+    }
+    </script>
+
+
   </body>
 </html>

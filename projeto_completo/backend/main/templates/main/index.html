@@ -11,60 +11,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet" />
   <title>MovieStar</title>
 
-  <style>
-    /* Estilo do dropdown */
-    .user-menu-btn {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      background: #ffd900;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-
-    .user-dropdown {
-      position: absolute;
-      background: #111;
-      border: 1px solid #111;
-      border-radius: 8px;
-      padding: 10px 0;
-      width: 150px;
-      right: 0;
-      top: 40px;
-      display: none;
-      flex-direction: column;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 999;
-    }
-
-    .user-dropdown a,
-    .user-dropdown button {
-      text-decoration: none;
-      color: white;
-      padding: 8px 15px;
-      text-align: left;
-      width: 100%;
-      border: none;
-      background: none;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    .user-dropdown a:hover,
-    .user-dropdown button:hover {
-      background: #ffd900;
-      color: black;
-    }
-
-    .user-menu-wrapper {
-      position: relative;
-      display: inline-block;
-    }
-  </style>
-
 </head>
 <body class="app">
 
@@ -73,41 +19,51 @@
   </script>
 
   <!-- HEADER -->
-  <header class="cabecalho">
-    <nav class="lista__cabecalho">
-      <p href="logo">MovieStar⭐</p>
-      <input type="text" id="campoBusca" placeholder="🔍​Buscar filme..." />
+  <header class="header-global header-transparent">
+    <nav style="width:100%; display:flex; justify-content:space-between; align-items:center;">
 
-      {% if request.user.is_authenticated %}
-        <!-- MENU DO USUÁRIO -->
-        <div class="user-menu-wrapper">
-          <button class="user-menu-btn" id="userMenuBtn">
-            {{ request.user.username }}
-            ▼
-          </button>
+      <span class="header-logo">MovieStar⭐</span>
 
-          <div class="user-dropdown" id="userDropdown">
-            <button type="button" title="Catálogo pessoal e opções da conta" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
-            <form action="{% url 'logout' %}" method="post">
-              {% csrf_token %}
-              <button type="submit" title="Sair da conta">Sair</button>
-            </form>
-          </div>
-        </div>
-      {% endif %}
+      <input type="text" id="campoBusca" placeholder="🔍 ​Buscar filme..." />
 
-      <article>
-        {% if request.user.is_authenticated and request.user.profile.is_movie_admin %}
-          <a href="{% url 'add_filme' %}" class="cabecalho__click">Adicionar Filmes</a>
-        {% endif %}
 
-        {% if not request.user.is_authenticated %}
-          <a class="cabecalho__click" href="{% url 'index_login' %}">Login</a>
-        {% endif %}
+
+        <div class="header-buttons">
+
+            <!-- MENU DO USUÁRIO -->
+            {% if request.user.is_authenticated %}
+            <div class="user-menu-wrapper">
+              <button class="user-menu-btn" id="userMenuBtn">
+                {{ request.user.username }} ▼
+              </button>
+
+              <div class="user-dropdown" id="userDropdown">
+                <button type="button" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">Sair</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+
+            {% if request.user.is_authenticated and request.user.profile.is_movie_admin %}
+                <form action="{% url 'add_filme' %}" method="get">
+                    <button type="submit" class="header-link" id="addBtn" >Adicionar Filmes</button>
+                </form>
+
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
+                <form action="{% url 'index_login' %}" method="get">
+                    <button type="submit" class="header-link" style="font-size: 14px;">Login</button>
+                </form>
+
+            {% endif %}
 
         <!-- Carrinho -->
         <form action="{% url 'carrinho' %}" method="get" class="cart-form">
-            <button class="cabecalho__click cart-icon" type="submit">
+            <button class="header-link" type="submit" style="display:flex; align-items:center; gap:8px;">
                 <svg width="24" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="9" cy="21" r="1"></circle>
@@ -120,9 +76,8 @@
                 {% endif %}
             </button>
         </form>
+        </div>
 
-
-      </article>
     </nav>
   </header>
 
@@ -135,9 +90,9 @@
       <div class="overtext">
         <h1 class="titulo__imagem">{{ destaque.nome }}</h1>
         <p class="descricao__imagem">{{ destaque.sinopse|linebreaksbr }}</p>
-        <p class="imdb">IMDB {{ destaque.nota_imdb }}</p>
+        <p class="imdb">IMDb ⭐ {{ destaque.nota_imdb }}</p>
 
-        <button class="btnAddCarrinho" data-id="{{ destaque.id }}">
+        <button data-id="{{ destaque.id }}">
           Alugar R$ 7,90
         </button>
 
@@ -164,7 +119,7 @@
                 <div class="overlay">
                   <p>Alugar por R$ 7,90</p>
 
-                  <button class="btnAddCarrinho" data-id="{{ filme.id }}">
+                  <button data-id="{{ filme.id }}">
                     Adicionar ao carrinho
                   </button>
 
@@ -205,7 +160,6 @@
       menu.style.display = menu.style.display === "flex" ? "none" : "flex";
     });
 
-    // Fecha se clicar fora
     document.addEventListener("click", (e) => {
       if (!btn.contains(e.target) && !menu.contains(e.target)) {
         menu.style.display = "none";

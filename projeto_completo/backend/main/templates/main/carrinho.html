@@ -30,7 +30,7 @@
         .carrinho-container {
             margin: 0 auto; 
             max-width: 900px;
-            padding: 20px 50px;
+            
         }
 
         h2 {
@@ -142,23 +142,52 @@
     window.USER_IS_LOGGED_IN = {{ request.user.is_authenticated|yesno:"true,false" }};
 </script>
 
-<header class="cabecalho">
-    <p style="cursor: default;">MovieStar⭐</p> 
-    
-    <nav class="lista__cabecalho">
-        <a href="{% url 'index' %}" class="cabecalho__click">Home</a>
+<!-- HEADER -->
+  <header class="header-global">
+    <nav style="width:100%; display:flex; justify-content:space-between; align-items:center;">
 
-        {% if request.user.is_authenticated %}
-            <p style="color: #fff; font-size: 14px; margin-right:10px;">Olá, {{ request.user.username }}</p>
-            <form action="{% url 'logout' %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="cabecalho__click">Sair</button>
+      <span class="header-logo">MovieStar⭐</span>
+
+        <div class="header-buttons">
+
+            <form action="/" method="get">
+                <button type="submit" class="btn-home">Home</button>
             </form>
-        {% else %}
-            <a class="cabecalho__click" href="{% url 'index_login' %}">Login</a>
-        {% endif %}
+
+
+            <!-- MENU DO USUÁRIO -->
+            {% if request.user.is_authenticated %}
+            <div class="user-menu-wrapper">
+              <button class="user-menu-btn" id="userMenuBtn">
+                {{ request.user.username }} ▼
+              </button>
+
+              <div class="user-dropdown" id="userDropdown">
+                <button type="button" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">Sair</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+
+            {% if request.user.is_authenticated and request.user.profile.is_movie_admin %}
+                <form action="{% url 'add_filme' %}" method="get">
+                    <button type="submit" class="header-link" id="addBtn" >Adicionar Filmes</button>
+                </form>
+
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
+                <form action="{% url 'index_login' %}" method="get">
+                    <button type="submit" class="header-link">Login</button>
+                </form>
+            {% endif %}
+        </div>
+
     </nav>
-</header>
+  </header>
 
 <main>
     <section class="carrinho-container">
@@ -188,13 +217,31 @@
     </section>
 </main>
 
-<footer class="footer">
-    <p class="logo__footer">MovieStar⭐</p>
+  <!-- FOOTER -->
+  <footer class="footer">
     <article>
-        <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
-        <p>©2025 - MovieStar, todos os direitos reservados</p>
+      <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+      <p>©2025 - MovieStar, todos os direitos reservados</p>
     </article>
-</footer>
+  </footer>
+
+  <script src="{% static 'main/js/interaction.js' %}"></script>
+  <script src="{% static 'main/js/carrinho.js' %}"></script>
+    <!-- JS do dropdown -->
+  <script>
+    const btn = document.getElementById("userMenuBtn");
+    const menu = document.getElementById("userDropdown");
+
+    btn?.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
 
 <script src="{% static 'main/js/carrinho.js' %}"></script>
 </body>

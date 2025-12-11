@@ -14,10 +14,12 @@ main { flex: 1; }
 
 .detalhes-container { display: flex; flex-direction: row; gap: 40px; margin: 40px 50px; }
 .detalhes-capa img { width: 320px; height: 480px; object-fit: cover; border: 2px solid black; border-radius: 8px; }
-.detalhes-info { display: flex; flex-direction: column; max-width: 700px; }
+.detalhes-info { display: flex; flex-direction: column; max-width: 700px; font-size: 25px}
 .buttons-container { margin-top: 20px; display: flex; gap: 20px; }
-.details-btn { padding: 10px 18px; background-color: white; border: 1px solid black; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; text-decoration: none; color: black; }
-.details-btn:hover { background-color: #f8e263; box-shadow: 4px 4px 8px rgba(0,0,0,0.4); }
+#detalhes-btns {
+    font-size: 20px;
+}
+
 
 /* Carrinho badge grande */
 .cart-icon { position: relative; }
@@ -34,42 +36,60 @@ main { flex: 1; }
 </head>
 <body>
 
-<!-- HEADER PADRÃO -->
-<header class="cabecalho">
-<nav class="lista__cabecalho">
-    <p href="/">MovieStar⭐</p>
-    <a href="{% url 'index' %}" class="cabecalho__click">Home</a>
+ <!-- HEADER -->
+  <header class="header-global">
+    <nav style="width:100%; display:flex; justify-content:space-between; align-items:center;">
 
-    {% if request.user.is_authenticated %}
-        <p>Olá, {{ request.user.username }}</p>
-        <form action="{% url 'logout' %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="cabecalho__click">Sair</button>
-        </form>
-    {% else %}
-        <a class="cabecalho__click" href="{% url 'index_login' %}">Login</a>
-    {% endif %}
+      <span class="header-logo">MovieStar⭐</span>
 
-    <article>
-        <!-- Carrinho -->
-        <a class="cabecalho__click cart-icon" href="{% url 'carrinho' %}">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
+        <div class="header-buttons">
+
+            <form action="/" method="get">
+                <button type="submit" class="btn-home">Home</button>
+            </form>
+
+
+            <!-- MENU DO USUÁRIO -->
             {% if request.user.is_authenticated %}
-                <span id="carrinhoQtd" class="cart-count"></span>
+            <div class="user-menu-wrapper">
+              <button class="user-menu-btn" id="userMenuBtn">
+                {{ request.user.username }} ▼
+              </button>
+
+              <div class="user-dropdown" id="userDropdown">
+                <button type="button" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">Sair</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+
+            {% if request.user.is_authenticated and request.user.profile.is_movie_admin %}
+                <form action="{% url 'add_filme' %}" method="get">
+                    <button type="submit" class="header-link" id="addBtn" >Adicionar Filmes</button>
+                </form>
+
             {% endif %}
-        </a>
-    </article>
-</nav>
-</header>
+
+            {% if not request.user.is_authenticated %}
+                <form action="{% url 'index_login' %}" method="get">
+                    <button type="submit" class="header-link">Login</button>
+                </form>
+            {% endif %}
+        </div>
+
+    </nav>
+  </header>
 
 <!-- MAIN -->
 <main>
-<h2 style="margin-left:50px;">{{ filme.nome }}</h2>
+</br>
+</br>
+</br>
+</br>
+<h2>{{ filme.nome }}</h2>
 
 <section class="detalhes-container">
     <div class="detalhes-capa">
@@ -77,34 +97,52 @@ main { flex: 1; }
     </div>
 
     <div class="detalhes-info">
-        <h2>Sinopse</h2>
         <p>{{ filme.sinopse }}</p>
-        <p class="imdb">IMDB: ⭐ {{ filme.nota_imdb }}</p>
+        <p class="imdb">IMDb ⭐ {{ filme.nota_imdb }}</p>
 
         <div class="buttons-container">
-            <a href="{{ filme.link_trailer }}" target="_blank" class="details-btn">▶ Assistir Trailer</a>
+            <form action="{{ filme.link_trailer }}" method="get" target="_blank">
+                <button type="submit" id="detalhes-btns" class="header-link">
+                    ▶ Assistir Trailer
+                </button>
+            </form>
 
-            <!-- Botão AJAX -->
-            <button class="details-btn btnAddCarrinho" data-id="{{ filme.id }}">
-                🛒 Adicionar ao Carrinho
+
+            <button class="header-link btnAddCarrinho" id="detalhes-btns" data-id="{{ filme.id }}">
+                Adicionar ao Carrinho
             </button>
+
         </div>
     </div>
 </section>
 </main>
 
-<!-- FOOTER PADRÃO -->
-<footer class="footer">
-    <p class="logo__footer">MovieStar⭐</p>
+  <!-- FOOTER -->
+  <footer class="footer">
     <article>
-        <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
-        <p>© 2025 - MovieStar, Todos os direitos reservados</p>
+      <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+      <p>©2025 - MovieStar, todos os direitos reservados</p>
     </article>
-</footer>
+  </footer>
 
 <!-- JS -->
 <script>
     window.USER_IS_LOGGED_IN = {{ request.user.is_authenticated|yesno:"true,false" }};
+</script>
+<!-- JS do dropdown -->
+<script>
+const btn = document.getElementById("userMenuBtn");
+const menu = document.getElementById("userDropdown");
+
+btn?.addEventListener("click", () => {
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+});
+
+document.addEventListener("click", (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+    }
+});
 </script>
 <script src="{% static 'main/js/carrinho.js' %}"></script>
 </body>
