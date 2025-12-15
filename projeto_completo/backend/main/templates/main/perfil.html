@@ -1,0 +1,328 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <title>MovieStar - Perfil</title>
+
+    <style>
+        body {
+            background-color: #141414;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* === CONTAINER === */
+        .container {
+            margin-top: 90px;
+            padding: 20px;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: calc(100vh - 90px - 80px);
+        }
+
+        /* === ABAS === */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #333;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: #222;
+            color: #fff;
+            margin-right: 10px;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #333;
+        }
+
+        .tab.active {
+            background: #ffd900;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .aba-conteudo { display: none; }
+        .aba-conteudo.ativa { display: block; }
+
+        /* === ESTILO DO CATÁLOGO === */
+        .filme-item {
+            background: #1a1a1a;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            border-radius: 6px;
+        }
+
+        .filme-item img {
+            width: 70px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .filme-item span {
+            margin-left: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .btn-remover {
+            margin-left: auto;
+            color: #ff4d4d;
+            border: 1px solid #ff4d4d;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-remover:hover {
+            background: #ff4d4d;
+            color: #000;
+        }
+
+        /* === BOTÕES === */
+        .btn-perigo {
+            background: #ff4d4d;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-sair {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* === MODAL === */
+        .modal-fundo {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal {
+            background: #111;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 350px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+
+        .modal-btn {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+    #header-buttons{
+        display: flex;
+        gap: 10px;
+    }
+    </style>
+
+    <script>
+        function trocarAba(aba) {
+            document.querySelectorAll(".aba-conteudo").forEach(div => div.classList.remove("ativa"));
+            document.querySelectorAll(".tab").forEach(btn => btn.classList.remove("active"));
+
+            document.getElementById(aba).classList.add("ativa");
+            document.getElementById("tab-" + aba).classList.add("active");
+        }
+
+        function abrirModal() {
+            document.getElementById("modalExcluir").style.display = "flex";
+        }
+
+        function fecharModal() {
+            document.getElementById("modalExcluir").style.display = "none";
+        }
+    </script>
+</head>
+
+<body>
+
+ <!-- HEADER -->
+  <header class="header-global">
+    <nav style="width:100%; display:flex; justify-content:space-between; align-items:center;">
+
+      <span class="header-logo">MovieStar⭐</span>
+
+        <div class="header-buttons">
+
+            <form action="/" method="get">
+                <button type="submit" class="btn-home">Home</button>
+            </form>
+
+
+            <!-- MENU DO USUÁRIO -->
+            {% if request.user.is_authenticated %}
+            <div class="user-menu-wrapper">
+              <button class="user-menu-btn" id="userMenuBtn">
+                {{ request.user.username }} ▼
+              </button>
+
+              <div class="user-dropdown" id="userDropdown">
+                <button type="button" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">Sair</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+
+            {% if request.user.is_authenticated and request.user.profile.is_movie_admin %}
+                <form action="{% url 'add_filme' %}" method="get">
+                    <button type="submit" class="header-link" id="addBtn" >Adicionar Filmes</button>
+                </form>
+
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
+                <form action="{% url 'index_login' %}" method="get">
+                    <button type="submit" class="header-link">Login</button>
+                </form>
+            {% endif %}
+        </div>
+
+    </nav>
+  </header>
+
+    <div class="container">
+
+            {% if messages %}
+        <div style="
+            background: #0f0f0f;
+            color: #ffd900;
+            padding: 12px 15px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+        ">
+            {% for m in messages %}
+                {{ m }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+        <div class="tabs">
+            <div class="tab active" id="tab-catalogo" onclick="trocarAba('catalogo')">Meu Catálogo</div>
+            <div class="tab" id="tab-conta" onclick="trocarAba('conta')">Conta</div>
+        </div>
+
+        <!-- ABA CATÁLOGO FUNCIONAL -->
+        <div id="catalogo" class="aba-conteudo ativa">
+            <h2>Meu Catálogo</h2>
+
+            {% if catalogo.filmes.all %}
+                {% for filme in catalogo.filmes.all %}
+                    <div class="filme-item">
+                        <img src="{{ filme.capa.url }}" />
+                        <span>{{ filme.nome }}</span>
+
+                        <a class="btn-remover" href="{% url 'remover_do_catalogo' filme.id %}">
+                            Reembolso
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="color:#ccc; margin-top:15px;">Você ainda não alugou nenhum filme.</p>
+            {% endif %}
+        </div>
+
+        <!-- ABA CONTA -->
+        <div id="conta" class="aba-conteudo">
+            <h2>Informações da Conta</h2>
+
+            <p><strong>Usuário:</strong> {{ request.user.username }}</p>
+            <p><strong>Email:</strong> {{ request.user.email }}</p>
+
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn-sair" type="submit">Sair</button>
+            </form>
+
+            {% if request.user.username != "admin" %}
+                <button class="btn-perigo" onclick="abrirModal()">Excluir Conta</button>
+            {% else %}
+                <button class="btn-perigo" disabled style="opacity:.5; cursor:not-allowed;">
+                    Exclusão indisponível para admin
+                </button>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-fundo" id="modalExcluir">
+        <div class="modal">
+            <h3>Tem certeza?</h3>
+            <p>Essa ação é permanente.</p>
+
+            <div class="modal-btn">
+                <button class="cancelar" onclick="fecharModal()">Cancelar</button>
+
+                <form action="{% url 'excluir_conta' %}" method="post" style="width:45%;">
+                    {% csrf_token %}
+                    <button type="submit" class="confirmar">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <article>
+      <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+      <p>©2025 - MovieStar, todos os direitos reservados</p>
+    </article>
+  </footer>
+
+
+  <!-- JS do dropdown -->
+  <script>
+    const btn = document.getElementById("userMenuBtn");
+    const menu = document.getElementById("userDropdown");
+
+    btn?.addEventListener("click", () => {
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = "none";
+      }
+    });
+  </script>
+
+</body>
+</html>

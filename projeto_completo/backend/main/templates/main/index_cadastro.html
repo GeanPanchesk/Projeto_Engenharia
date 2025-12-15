@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieStar - Cadastre-se</title>
+    <style>
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #141414; /* Fundo escuro */
+        color: #fff;
+      }
+
+      
+      .log_in {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+      }
+
+      .texts_log_in {
+        background-color: rgba(0, 0, 0, 0.75); 
+        padding: 50px 60px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px; 
+        width: 100%;
+        max-width: 400px; 
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      }
+
+      h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        margin-top: 0;
+        font-weight: bold;
+        color: #fff;
+        text-align: left;
+      }
+
+      
+      input {
+        background-color: #333;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        height: 50px;
+        padding: 0 20px;
+        font-size: 16px;
+        outline: none;
+      }
+
+      input::placeholder {
+        color: #8c8c8c;
+      }
+
+      input:focus {
+        background-color: #454545;
+        border-bottom: 2px solid #ffd900; 
+      }
+
+      
+      button {
+        background-color: #ffd900;
+        color: #141414;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        height: 48px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: all 0.2s ease;
+        width: 100%;
+      }
+
+      button:hover {
+        background-color: #ffe033;
+        transform: scale(1.02);
+        box-shadow: 0 0 10px rgba(255, 217, 0, 0.2);
+      }
+
+      
+      .errorlist {
+        color: #e87c03; /* Laranja erro */
+        list-style-type: none;
+        padding: 10px;
+        margin: 0;
+        background-color: rgba(232, 124, 3, 0.1);
+        border-radius: 4px;
+        border-left: 4px solid #e87c03;
+        font-size: 14px;
+      }
+
+      .errorlist li {
+        margin-bottom: 5px;
+      }
+      
+      .errorlist li:last-child {
+        margin-bottom: 0;
+      }
+
+      strong {
+        color: #fff; 
+      }
+      .senha-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .senha-container input {
+        width: 95%;
+        padding-right: 0px !important; /* mínimo necessário */
+      }
+
+      .toggle-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity .2s;
+        pointer-events: auto;
+      }
+
+      .toggle-btn:hover {
+        opacity: 1;
+      }
+
+
+    </style>
+  </head>
+  <body class="log_in">
+    <form
+      method="POST"
+      class="texts_log_in"
+      id="formRegistro"
+      action="{% url 'index_cadastro' %}"
+    >
+      <h1>Cadastre-se</h1>
+      
+      {% csrf_token %} 
+      
+      {% if form.errors %}
+      <ul class="errorlist">
+        {% for field in form %} 
+            {% for error in field.errors %}
+                <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+            {% endfor %} 
+        {% endfor %} 
+        
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <input
+        type="text"
+        name="username"
+        placeholder="Digite seu usuário"
+        value="{{ form.username.value|default_if_none:'' }}"
+        required
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Digite seu email"
+        value="{{ form.email.value|default_if_none:'' }}"
+        required
+      />
+      <div class="senha-container">
+        <input
+          type="password"
+          id="password1"
+          name="password1"
+          placeholder="Digite sua senha"
+          required
+        />
+        <div class="toggle-btn" onclick="toggleSenha('password1', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="senha-container">
+        <input
+          type="password"
+          id="password2"
+          name="password2"
+          placeholder="Repita sua senha"
+          required
+        />
+        <div class="toggle-btn" onclick="toggleSenha('password2', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+      </div>
+
+      <button type="submit" id="btnEnviar" class="btn-submit">Criar conta</button>
+      <button type="button" style="width: 100px; align-self: flex-start;" onclick="window.location.href='{% url 'index' %}'">Home</button>
+
+    </form>
+
+    <script src="{% static 'main/js/interaction.js' %}"></script>
+    <script>
+      const form = document.getElementById("formRegistro");
+      const senha1 = form.querySelector('[name="password1"]');
+      const senha2 = form.querySelector('[name="password2"]');
+
+      function toggleSenha(idCampo, botao) {
+          const campo = document.getElementById(idCampo);
+          
+          const svgFechado = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.96 10.96 0 0112 20c-5 0-9.27-3.11-11-8
+              1-2.7 2.7-4.94 4.82-6.35"/>
+              <path d="M1 1l22 22"/>
+              <path d="M9.53 9.53A3 3 0 0114.47 14.47"/>
+            </svg>`;
+
+          const svgAberto = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>`;
+
+          if (campo.type === "password") {
+              campo.type = "text";
+              botao.innerHTML = svgFechado;
+          } else {
+              campo.type = "password";
+              botao.innerHTML = svgAberto;
+          }
+      }
+
+    </script>
+  </body>
+</html>

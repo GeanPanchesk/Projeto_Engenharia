@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieStar - Login</title>
+    <style>
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #141414; 
+        color: #fff;
+      }
+
+      
+      .log_in {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)); 
+      }
+
+      /* O cartão do formulário */
+      .texts_log_in {
+        background-color: rgba(0, 0, 0, 0.75); 
+        padding: 60px 68px 40px; 
+        border-radius: 8px; 
+        display: flex;
+        flex-direction: column;
+        gap: 16px; 
+        width: 100%;
+        max-width: 350px; 
+        min-height: 400px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+      }
+
+      h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+        text-align: left;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      
+      input {
+        background-color: #333;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        height: 50px;
+        padding: 0 20px;
+        font-size: 16px;
+        outline: none;
+      }
+
+      input::placeholder {
+        color: #8c8c8c;
+      }
+
+      input:focus {
+        background-color: #454545;
+        border-bottom: 2px solid #ffd900; /* Detalhe amarelo ao clicar */
+      }
+
+      
+      button {
+        background-color: #ffd900;
+        color: #141414;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        height: 48px;
+        cursor: pointer;
+        margin-top: 24px;
+        transition: all 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #ffe033;
+        transform: scale(1.02); 
+      }
+
+      
+      form article {
+        margin-top: 10px;
+        color: #737373;
+        font-size: 14px;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+
+      form article p {
+        margin: 0;
+      }
+
+      form article a {
+        color: #fff;
+        text-decoration: none;
+        background: none;
+        border: none;
+        padding: 0;
+        font-weight: 500;
+      }
+
+      form article a:hover {
+        text-decoration: underline;
+        color: #ffd900;
+        box-shadow: none;
+      }
+
+      
+      .error-msg {
+        color: #e87c03;
+        font-size: 14px;
+        margin: 0;
+        background: rgba(232, 124, 3, 0.1);
+        padding: 10px;
+        border-radius: 4px;
+        border-left: 3px solid #e87c03;
+      }
+      .senha-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .senha-container input {
+        width: 94.5%;
+        padding-right: 0px !important; /* mínimo necessário */
+      }
+
+      .toggle-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity .2s;
+        pointer-events: auto;
+      }
+
+      .toggle-btn:hover {
+        opacity: 1;
+      }
+
+
+
+    </style>
+  </head>
+
+  <body class="log_in">
+    <form action="{% url 'index_login' %}" method="POST" class="texts_log_in">
+      {% csrf_token %}
+      
+      <h1>Entrar</h1>
+
+      {% if messages %} 
+        {% for message in messages %}
+          <p class="error-msg">{{ message }}</p>
+        {% endfor %} 
+      {% endif %}
+
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Usuário"
+        required
+      />
+
+      <div class="senha-container">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Senha"
+          required
+        />
+        <div class="toggle-btn" onclick="toggleSenha('password', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+      </div>
+
+
+      <button type="submit">Entrar</button>
+
+      <article>
+        <p>Novo por aqui?</p>
+        <a href="{% url 'index_cadastro' %}">Cadastre-se.</a>
+      </article>
+      <button type="button" style="width: 100px; align-self: flex-start;" onclick="window.location.href='{% url 'index' %}'">Home</button>
+
+    </form>
+    <script>
+    function toggleSenha(idCampo, botao) {
+        const campo = document.getElementById(idCampo);
+        
+        const svgFechado = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.94 17.94A10.96 10.96 0 0112 20c-5 0-9.27-3.11-11-8
+            1-2.7 2.7-4.94 4.82-6.35"/>
+            <path d="M1 1l22 22"/>
+            <path d="M9.53 9.53A3 3 0 0114.47 14.47"/>
+          </svg>`;
+
+        const svgAberto = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffd900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>`;
+
+        if (campo.type === "password") {
+            campo.type = "text";
+            botao.innerHTML = svgFechado;
+        } else {
+            campo.type = "password";
+            botao.innerHTML = svgAberto;
+        }
+    }
+    </script>
+
+
+  </body>
+</html>

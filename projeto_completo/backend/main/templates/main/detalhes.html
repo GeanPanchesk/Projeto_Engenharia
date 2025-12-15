@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MovieStar - {{ filme.nome }}</title>
+<link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+
+<style>
+html, body { height: 100%; }
+body { display: flex; flex-direction: column; }
+main { flex: 1; }
+
+.detalhes-container { display: flex; flex-direction: row; gap: 40px; margin: 40px 50px; }
+.detalhes-capa img { width: 320px; height: 480px; object-fit: cover; border: 2px solid black; border-radius: 8px; }
+.detalhes-info { display: flex; flex-direction: column; max-width: 700px; font-size: 25px}
+.buttons-container { margin-top: 20px; display: flex; gap: 20px; }
+#detalhes-btns {
+    font-size: 20px;
+}
+
+
+/* Carrinho badge grande */
+.cart-icon { position: relative; }
+.cart-count { 
+    position: absolute; 
+    bottom: -10px; 
+    right: -10px; 
+    color: black; 
+    font-size: 20px; 
+    font-weight: bold; 
+    display: none;
+}
+</style>
+</head>
+<body>
+
+ <!-- HEADER -->
+  <header class="header-global">
+    <nav style="width:100%; display:flex; justify-content:space-between; align-items:center;">
+
+      <span class="header-logo">MovieStar⭐</span>
+
+        <div class="header-buttons">
+
+            <form action="/" method="get">
+                <button type="submit" class="btn-home">Home</button>
+            </form>
+
+
+            <!-- MENU DO USUÁRIO -->
+            {% if request.user.is_authenticated %}
+            <div class="user-menu-wrapper">
+              <button class="user-menu-btn" id="userMenuBtn">
+                {{ request.user.username }} ▼
+              </button>
+
+              <div class="user-dropdown" id="userDropdown">
+                <button type="button" onclick="window.location.href='{% url 'perfil' %}'">Meu Perfil</button>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit">Sair</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+
+            {% if request.user.is_authenticated and request.user.profile.is_movie_admin %}
+                <form action="{% url 'add_filme' %}" method="get">
+                    <button type="submit" class="header-link" id="addBtn" >Adicionar Filmes</button>
+                </form>
+
+            {% endif %}
+
+            {% if not request.user.is_authenticated %}
+                <form action="{% url 'index_login' %}" method="get">
+                    <button type="submit" class="header-link">Login</button>
+                </form>
+            {% endif %}
+        </div>
+
+    </nav>
+  </header>
+
+<!-- MAIN -->
+<main>
+</br>
+</br>
+</br>
+</br>
+<h2>{{ filme.nome }}</h2>
+
+<section class="detalhes-container">
+    <div class="detalhes-capa">
+        <img src="{{ filme.capa.url }}" alt="Capa do filme {{ filme.nome }}">
+    </div>
+
+    <div class="detalhes-info">
+        <p>{{ filme.sinopse }}</p>
+        <p class="imdb">IMDb ⭐ {{ filme.nota_imdb }}</p>
+
+        <div class="buttons-container">
+            <form action="{{ filme.link_trailer }}" method="get" target="_blank">
+                <button type="submit" id="detalhes-btns" class="header-link">
+                    ▶ Assistir Trailer
+                </button>
+            </form>
+
+
+            <button class="header-link btnAddCarrinho" id="detalhes-btns" data-id="{{ filme.id }}">
+                Adicionar ao Carrinho
+            </button>
+
+        </div>
+    </div>
+</section>
+</main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <article>
+      <a href="https://www.termsfeed.com/live/95e042e5-41de-4507-9929-43f2ed241a31">Termos e aviso de privacidade</a>
+      <p>©2025 - MovieStar, todos os direitos reservados</p>
+    </article>
+  </footer>
+
+<!-- JS -->
+<script>
+    window.USER_IS_LOGGED_IN = {{ request.user.is_authenticated|yesno:"true,false" }};
+</script>
+<!-- JS do dropdown -->
+<script>
+const btn = document.getElementById("userMenuBtn");
+const menu = document.getElementById("userDropdown");
+
+btn?.addEventListener("click", () => {
+    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+});
+
+document.addEventListener("click", (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+    menu.style.display = "none";
+    }
+});
+</script>
+<script src="{% static 'main/js/carrinho.js' %}"></script>
+</body>
+</html>
